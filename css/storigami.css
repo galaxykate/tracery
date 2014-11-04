@@ -1,0 +1,23 @@
+body {
+	background-color: rgba(40, 55, 55, .4);
+	margin: 20px;
+}
+
+.storyFold {
+	white-space: nowrap;
+	margin: 2px;
+	padding: 2px;
+	background-color: rgba(140, 255, 255, .4);
+	border: 2px solid rgba(255, 255, 255, .8);
+	box-shadow: 0px 0px 3px rgba(0, 0, 0, .3);
+}
+
+.storyFold .plainText {
+	background-color: rgba(200, 200, 200, .5);
+}
+.storyFold .ruleExpansion {
+	background-color: rgba(240, 255, 55, 1);
+}
+.storyFold .symbolExpansion {
+	background-color: rgba(255, 25, 255, 1);
+}
