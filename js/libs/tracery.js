@@ -12,6 +12,24 @@ var tracery = (function() {
         return s;
     };
 
+    var isConsonant = function(c) {
+        c = c.toLowerCase();
+        switch(c) {
+            case 'a':
+                return false;
+            case 'e':
+                return false;
+            case 'i':
+                return false;
+            case 'o':
+                return false;
+            case 'u':
+                return false;
+
+        }
+        return true;
+    };
+
     var modificationFunctions = {
         capitalizeAll : function(s) {
             return s.replace(/(?:^|\s)\S/g, function(a) {
@@ -23,6 +41,17 @@ var tracery = (function() {
         capitalize : function(s) {
             return s.charAt(0).toUpperCase() + s.slice(1);
 
+        },
+
+        a : function(s) {
+            if (!isConsonant(s.charAt()))
+                return "an " + s;
+            return "a " + s;
+
+        },
+
+        pluralize : function(s) {
+            return s + "s";
         }
     };
     // From http://stackoverflow.com/questions/521295/javascript-random-seeds
@@ -230,19 +259,17 @@ var tracery = (function() {
         if (options.symbol) {
             this.type = "symbolExpansion";
             this.symbol = options.symbol;
-            console.log(this.type + ":" + this.symbol);
+            this.modifiers = options.modifiers;
         }
 
         if (options.rule) {
             this.type = "ruleExpansion";
             this.rule = options.rule;
-            console.log(this.type + ":" + this.rule);
         }
 
         if (options.plainText) {
             this.type = "plainText";
             this.finishedText = options.plainText;
-            console.log(this.type + ":" + this.finishedText);
         }
 
         this.children = [];
@@ -313,11 +340,17 @@ var tracery = (function() {
             if (symbol.ruleOverrides[traceID] && symbol.ruleOverrides[traceID].length !== 0)
                 throw (symbol.key + " still has " + symbol.ruleOverrides[traceID].length + " overrides! " + symbol.ruleOverrides[traceID].join(","));
         });
+        return this.root;
     };
 
     Trace.prototype.flatten = function() {
 
         return this.root.flatten();
+    };
+
+    Trace.prototype.expandAndFlatten = function() {
+        this.expand();
+        return this.flatten();
     };
 
     Trace.prototype.debugOutput = function() {
@@ -426,6 +459,20 @@ var tracery = (function() {
     Grammar.prototype.popRules = function(key, traceID) {
         if (this.symbols[key])
             this.symbols[key].popRules(traceID);
+    };
+
+    // Call with nothing, will use the base trace
+    Grammar.prototype.createTrace = function(symbol) {
+        return this.createTraceFromSymbol(symbol);
+    };
+
+    Grammar.prototype.createFlattened = function(symbol) {
+
+        var trace = this.createTraceFromSymbol(symbol);
+
+        var flat = trace.expandAndFlatten();
+
+        return flat;
     };
 
     // Add methods like this.  All Person objects will be able to invoke this

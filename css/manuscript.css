@@ -1,0 +1,102 @@
+body {
+	background-image: url("img/PaperTile.jpg");
+}
+
+@font-face {
+	font-family: handwriting;
+	src: url("font/Saint-Andrews Queen.ttf");
+	/*
+	 src: url("font/Baskerville.ttc");
+
+	 src: url("font/DJB About a Boy.ttf");
+	 src: url("font/SANTO___.otf");
+	 src: url("font/Ellianarelle s Path.ttf");//
+	 src: url("font/USDeclaration.ttf");//
+	 src: url("font/Angelique ma douce Colombe.ttf");//
+	 src: url("font/AquilineTwo.ttf");//
+	 src: url("font/SANTO___.otf");//
+	 src: url("font/Simplesnails ver 4.0.ttf");//
+	 src: url("font/Volstead 2.ttf");
+	 src: url("font/Phosf___.ttf");
+	 src: url("font/SANTO___.otf");
+	 src: url("font/AquilineTwo.ttf");
+	 src: url("font/PersonalUse_ShippedGoods1.ttf");//
+	 */
+}
+
+@font-face {
+	font-family: titling;
+	 src: url("font/DJB About a Boy.ttf");
+}
+
+@font-face {
+	font-family: spell;
+	src: url("font/Augusta.ttf");
+}
+
+#spells {
+	font-family: spell;
+	font-size: 20px;
+	margin: 30px;
+	line-height: 60%;
+}
+
+#stories {
+	font-family: handwriting;
+	font-size: 30px;
+	line-height: 120%;
+}
+
+#bookHeader {
+	font-family: titling;
+	width: 100%;
+}
+.chapterTitle {
+	font-family: titling;
+	font-size: 40px;
+	text-align: center;
+	margin: 10px;
+	color: rgba(60, 40, 0, .9);
+}
+
+#bookTitle {
+	font-family: titling;
+	font-size: 60px;
+	text-align: center;
+	margin: 10px;
+	color: rgba(60, 40, 0, .9);
+}
+
+#bookAuthor {
+	text-align: center;
+	font-family: titling;
+	font-size: 40px;
+	color: rgba(60, 40, 0, .9);
+}
+
+#stories {
+	margin: 50px;
+	color: rgba(60, 40, 0, .9);
+}
+.illustration {
+	margin: 10px;
+	padding: 10px;
+	float: left;
+	display: table;
+}
+
+.caption {
+
+	display: table-caption;
+	caption-side: bottom;
+	padding: 10px;
+}
+.blended {
+	position: relative;
+	min-width: 50px;
+	min-height: 50px;
+	display: inline-block;
+	background-image: url("img/adventure/eye.png"), url("img/PaperTile.jpg");
+	background-blend-mode: multiply;
+}
+
