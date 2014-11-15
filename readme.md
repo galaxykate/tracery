@@ -18,7 +18,8 @@
 } 
 ```
     
-#### Output of that grammar.  Of course, many grammars are more complex!
+#### Output of that grammar.  
+Of course, many grammars are more complex!
 ```
 Once Gertrude the Elk went on an adventure to the Magical Forest. Seeing such a enchanted forest made Gertrude the Elk resentful.
 Once Carmen the Okapi went on an adventure to the Haunted Forest. Seeing such a faraway forest made Carmen the Okapi appreciative.
@@ -60,6 +61,7 @@ Many traces can be working on a single grammar at the same time, without getting
 ####  Grammar
 A grammar is a key-value storage system for rules.
 
+####  Rule syntax
 Each symbol should be followed by an array of text strings representing rules
 ```
   "emotion" : ["happy", "sad", "proud"],   
