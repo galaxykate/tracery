@@ -6,47 +6,12 @@ var app = {};
 $(document).ready(function() {
     var images = ["brain", "cone", "eye2", "dive1", "dive2", "fish", "pies"];
 
-    var side = false;
-    function createImage(src, parent) {
-        var holder = $("<div>", {
-            class : "illustration",
-
-        });
-
-        if (side) {
-            holder.css({
-                float : "right"
-            });
-        }
-        side = !side;
-        var div = $("<div>", {
-            class : "blended",
-
-        });
-        parent.append(holder);
-
-        holder.append(div);
-
-        div.css({
-            "background-image" : 'url("' + src + '"), url("css/img/PaperTile.jpg")'
-        });
-
-        div.append($("<img/>", {
-            src : src,
-
-            style : "visibility : hidden",
-
-        }));
-
-        var caption = app.grammar.createFlattened("caption");
-        holder.append($("<div/>", {
-            class : "caption",
-            html : caption,
-        }));
-
-    }
-
     var adventureGrammar = {
+        imgSource : ["brain.png", "eye2.png"],
+        hiddenImg : ["<img class='blendedImg' src='#imgUrl#'></img>"],
+        blendedImg : ["[imgUrl:img/adventure/#imgSource#]<div class='blended' style='background-image:url(#imgUrl#), url(css/img/PaperTile.jpg)'>#hiddenImg#</div>"],
+
+        illustration : ["<div class='illustration'>#blendedImg#</div>"],
         adventure : "lament story epic tear sight sigh wish desire dance mystery enigma drama path training sorrows joy tragedy comedy riddle puzzle regret victory loss song adventure question quest vow oath tale travel".split(" "),
         abstractNoun : ["#adventure#"],
         bookTitle : ["The #adventure.capitalize# of a #abstractNoun.capitalize#"],
@@ -65,22 +30,23 @@ $(document).ready(function() {
         caption : ["No-one expected what we saw next", "The #emotion# we were shown was #unexpected#", "A stunning reveal.", "Assistance came from #unexpected.a# source"],
         introClause : ["without further #adventure#,", "though we were still #mood#,", "alas,", "unexpectly", "with no warning", "to our immense #emotion#"],
         "event" : ["#introClause# #event#", "#introClause# #event#", "#introClause# #event#", "#introClause# #event#", "we travelled many days.", "we rested a while.", "a thrilling battle ensued.", "many tears were shed.", "celebrations lasted into the night."],
-        origin : ["#event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize#"],
+        origin : ["#illustration##event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize# #event.capitalize#"],
     };
 
-    var count = 10;
+    var count = 1;
     var traces = [];
     app.grammar = tracery.createGrammar(adventureGrammar);
     for (var i = 0; i < count; i++) {
-        traces[i] = app.grammar.createTraceFromSymbol();
+        traces[i] = app.grammar.createTrace();
     }
 
+    app.grammar.pushRules("surname", "Murphy");
     for (var i = 0; i < count; i++) {
         traces[i].expand();
     }
 
-    $("#bookTitle").html(app.grammar.createFlattened("bookTitle"));
-    $("#bookAuthor").html(app.grammar.createFlattened("author"));
+    $("#bookTitle").html(app.grammar.createFlattened("#bookTitle#"));
+    $("#bookAuthor").html(app.grammar.createFlattened("#author#"));
 
     var holder = $("#stories");
 
@@ -88,12 +54,9 @@ $(document).ready(function() {
         var story = traces[i].flatten();
         //console.log(story);
 
-        holder.append("<div class='chapterTitle'>Chapter " + (i + 1) + ": " + app.grammar.createFlattened("chapterTitle") + "</div>");
+        holder.append("<div class='chapterTitle'>Chapter " + (i + 1) + ": " + app.grammar.createFlattened("#chapterTitle#") + "</div>");
         holder.append("<p>" + story + "</p>");
 
-        for (var j = 0; j < 1; j++) {
-            createImage("css/img/adventure/" + images[Math.floor(Math.random() * 7)] + ".png", holder);
-        }
     }
 
     //   storygami.createTree($("#stories"), traces[0]);

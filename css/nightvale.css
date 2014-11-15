@@ -1,5 +1,5 @@
 body {
-	background-image: url("img/PaperTile.jpg");
+	background-image: url("img/glitter.jpg");
 }
 
 @font-face {
@@ -25,59 +25,56 @@ body {
 }
 
 @font-face {
-	font-family: titling;
-	src: url("font/DJB About a Boy.ttf");
+	font-family: narration;
+	src: url("font/JosefinSans-Light.ttf");
 }
 
 @font-face {
-	font-family: spell;
-	src: url("font/Augusta.ttf");
+	font-family: weather;
+	src: url("font/JosefinSans-Italic.ttf");
 }
 
-#spells {
-	font-family: spell;
+
+#mainColumn {
+	width: 80%;
+	height: 1000px;
+	border-radius: 20px;
+	border: 6px solid rgba(250, 100, 255, .6);
+	background-color: rgba(30, 0, 60, .8);
+	box-shadow: inset 0px 0px 130px rgba(0, 0, 0, .3), 0px 0px 130px rgba(255, 100, 255, .8);
+	margin: 40px auto;
+}
+
+#story {
 	font-size: 20px;
 	margin: 30px;
-	line-height: 60%;
+	font-family: narration;
+	color: rgba(230, 200, 250, .8);
 }
 
-#stories {
-	font-family: handwriting;
-	font-size: 30px;
-	line-height: 120%;
+.weather {
+	font-size: 15px;
+	margin: 20px;
+	font-family: weather;
+	color: rgba(230, 120, 250, .8);
 }
 
-#bookHeader {
-	font-family: titling;
+.touchable {
+	
+	color: rgba(230, 50, 250, .4);
+}
+
+.touchable:hover {
+	
+	color: rgba(230, 50, 250, .8);
+}
+.columnBG {
+	top: 0px;
+	left: 0px;
 	width: 100%;
-}
-.chapterTitle {
-	font-family: titling;
-	font-size: 40px;
-	text-align: center;
-	margin: 10px;
-	color: rgba(60, 40, 0, .9);
+	height: 100%;
 }
 
-#bookTitle {
-	font-family: titling;
-	font-size: 60px;
-	text-align: center;
-	margin: 10px;
-	color: rgba(60, 40, 0, .9);
-}
-
-#bookAuthor {
-	text-align: center;
-	font-family: titling;
-	font-size: 40px;
-	color: rgba(60, 40, 0, .9);
-}
-
-#stories {
-	margin: 50px;
-	color: rgba(60, 40, 0, .9);
-}
 .illustration {
 	margin: 10px;
 	padding: 10px;

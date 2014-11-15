@@ -1,9 +1,13 @@
 /**
  * @author Kate Compton
+ *  © Copyright 2014 Kate Compton. All rights reserved.
+ * All trademarks and service marks are the properties of their respective owners.
  */
 
 var tracery = (function() {
     var traceCount = 0;
+
+    // Utility functions
     function getSpacer(count) {
         var s = "";
         for (var i = 0; i < count; i++) {
@@ -55,8 +59,8 @@ var tracery = (function() {
         }
     };
     // From http://stackoverflow.com/questions/521295/javascript-random-seeds
-    var m_w = 123456789;
-    var m_z = 987654321;
+    var m_w = 32132131;
+    var m_z = 897978933;
     var mask = 0xffffffff;
 
     // Returns number between 0 (inclusive) and 1.0 (exclusive),
@@ -120,9 +124,8 @@ var tracery = (function() {
                         node.trace.grammar.popRules(section.symbol, traceID);
                     } else {
 
-                        var subtrace = node.trace.grammar.createTraceFromCommand(section.command);
-                        subtrace.expand();
-                        var flat = subtrace.flatten();
+                        var subtrace = node.trace.grammar.createTrace(section.command);
+                        var flat = subtrace.expand().flatten();
                         node.trace.grammar.pushRules(section.symbol, [flat], traceID);
                     }
 
@@ -271,6 +274,10 @@ var tracery = (function() {
             this.type = "plainText";
             this.finishedText = options.plainText;
         }
+        if (this.type === undefined) {
+            console.log(options);
+            throw ("Can't create a node with no type! ");
+        }
 
         this.children = [];
     };
@@ -295,10 +302,20 @@ var tracery = (function() {
     };
 
     Node.prototype.expand = function() {
-        if (this.symbol && !this.rule) {
-            this.rule = this.trace.grammar.getRule(this.symbol, this.trace.id);
+
+        if (this.rule) {
+            this.rule.execute(this);
+
+        } else {
+            if (this.symbol) {
+                this.rule = this.trace.grammar.getRule(this.symbol, this.trace.id);
+                this.rule.execute(this);
+            } else {
+                throw ("Neither rule nor symbol! " + this);
+            }
         }
-        this.rule.execute(this);
+
+        return this;
     };
 
     Node.prototype.addText = function(text) {
@@ -335,19 +352,22 @@ var tracery = (function() {
     Trace.prototype.expand = function(recursively) {
         this.root.expand(recursively);
         var traceID = this.id;
+
         // Did all the overwrites get undone?
         this.grammar.forAllSymbols(function(symbol) {
             if (symbol.ruleOverrides[traceID] && symbol.ruleOverrides[traceID].length !== 0)
-                throw (symbol.key + " still has " + symbol.ruleOverrides[traceID].length + " overrides! " + symbol.ruleOverrides[traceID].join(","));
+                console.warn(symbol.key + " still has " + symbol.ruleOverrides[traceID].length + " overrides! " + symbol.ruleOverrides[traceID].join(","));
         });
+
         return this.root;
     };
 
+    // Compress the tree into a single string
     Trace.prototype.flatten = function() {
-
         return this.root.flatten();
     };
 
+    // Expand and compress the tree into a single string
     Trace.prototype.expandAndFlatten = function() {
         this.expand();
         return this.flatten();
@@ -370,7 +390,12 @@ var tracery = (function() {
     };
 
     Symbol.prototype.getRule = function(traceID) {
-        var override = this.ruleOverrides[traceID];
+        // any universal overrides? (aka, shared between all traces)
+        var override = this.ruleOverrides["universal"];
+
+        // any specific overrides?
+        if (this.ruleOverrides[traceID])
+            override = this.ruleOverrides[traceID];
 
         if (override) {
             return override[override.length - 1].getRule();
@@ -384,6 +409,12 @@ var tracery = (function() {
     };
     //========================================================================
     Symbol.prototype.pushRules = function(rawRules, traceID) {
+        if (!Array.isArray(rawRules)) {
+            console.warn("New rules for " + this.key + "(" + rawRules + ") are not an array");
+            rawRules = [rawRules];
+        }
+        traceID = traceID !== undefined ? traceID : "universal";
+
         var ruleSet = new RuleSet(this, rawRules);
         if (!this.ruleOverrides[traceID])
             this.ruleOverrides[traceID] = [];
@@ -417,7 +448,7 @@ var tracery = (function() {
         this.expansionCount = 0;
         //   variable = (condition) ? true-value : false-value;
         this.title = (source.traceryTitle) ? source.traceryTitle : "Untitled Grammar";
-        this.originWord = (source.traceryOrigin) ? source.traceryOrigin : "origin";
+        this.startSymbol = "origin";
         this.sourceRules = (source.rules) ? source.rules : source;
 
         // Set up the symbol library
@@ -461,38 +492,36 @@ var tracery = (function() {
             this.symbols[key].popRules(traceID);
     };
 
-    // Call with nothing, will use the base trace
-    Grammar.prototype.createTrace = function(symbol) {
-        return this.createTraceFromSymbol(symbol);
-    };
+    Grammar.prototype.createFlattened = function(rule) {
 
-    Grammar.prototype.createFlattened = function(symbol) {
-
-        var trace = this.createTraceFromSymbol(symbol);
-
-        var flat = trace.expandAndFlatten();
+        var trace = this.createTrace(rule);
+        var flat = trace.expand().flatten();
 
         return flat;
     };
 
-    // Add methods like this.  All Person objects will be able to invoke this
-    Grammar.prototype.createTraceFromSymbol = function(symbol) {
+    // Call with nothing, will use the base trace
+    Grammar.prototype.createTrace = function(rule) {
         this.expansionCount++;
+        if (rule)
+            return new Trace(this, {
+                rule : new Rule(rule)
+            });
 
-        symbol = symbol ? symbol : this.originWord;
-
+        // use start if nothing provided
         return new Trace(this, {
-            symbol : symbol
+            symbol : this.startSymbol
         });
     };
 
-    Grammar.prototype.createTraceFromCommand = function(command) {
+    Grammar.prototype.createTraceFromSymbol = function(symbol) {
         this.expansionCount++;
 
-        command = command ? command : "#" + this.originWord + "#";
+        // use start if nothing provided
+        symbol = symbol ? symbol : this.startSymbol;
 
         return new Trace(this, {
-            rule : new Rule(command)
+            symbol : symbol
         });
     };
 
