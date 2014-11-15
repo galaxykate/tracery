@@ -16,10 +16,10 @@
 	"story":["Once #mainCharacter# went on an adventure to the #placeAdj.capitalize# #destination.capitalize#. Seeing such a #placeAdj# #destination# made #mainCharacter# #emotion#."],
 	"origin":["[mainCharacter:#name# the #animal.capitalize#][destination:#place#]#story#[mainCharacter:pop][destination:pop]"]
 } 
-    ```
+    ````
     
 #### Output of that grammar.  Of course, many grammars are more complex!
-    ```
+    ````
 Once Gertrude the Elk went on an adventure to the Magical Forest. Seeing such a enchanted forest made Gertrude the Elk resentful.
 Once Carmen the Okapi went on an adventure to the Haunted Forest. Seeing such a faraway forest made Carmen the Okapi appreciative.
 Once Lakshmi the Lion went on an adventure to the Delightful Lagoon. Seeing such a scenic lagoon made Lakshmi the Lion jealous.
