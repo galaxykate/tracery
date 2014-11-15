@@ -40,7 +40,6 @@ $(document).ready(function() {
         traces[i] = app.grammar.createTrace();
     }
 
-    app.grammar.pushRules("surname", "Murphy");
     for (var i = 0; i < count; i++) {
         traces[i].expand();
     }

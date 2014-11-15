@@ -1,6 +1,35 @@
 # Welcome to Tracery!
 
 ## A text-expansion library
+
+
+### Write grammar objects, get generative stories
+
+#### An example grammar
+```
+{
+	"animal":["amoeba","mongoose","capybara","yeti","dragon","unicorn","sphinx","kangaroo","boa","nematode","sheep","quail","goat","corgi","agouti","zebra","giraffe","rhino","skunk","dolphin","whale","bullfrog","okapi","sloth","monkey","orangutan","grizzly","moose","elk","dikdik","ibis","stork","finch","nightingale","goose","robin","eagle","hawk","iguana","tortoise","panther","lion","tiger","gnu","reindeer","raccoon","opossum"],
+	"emotion":["happy","sad","reflective","morose","gleeful","jealous","resentful","appreciative","proud"],
+	"name":["Jamal","Aisha","Marcel","Pearl","Gertrude","Bailey","Logan","Aiden","Scout","Ambrose","Beverly","Takashi","Hilda","Nadya","Salim","Carmen","Ming","Lakshmi","Naveen","Ginger"],
+	"placeAdj":["delightful","haunted","faraway","sunlit","magical","enchanted","serene","scenic"],
+	"place":["lagoon","lake","forest","island","grotto","mountain","desert","wasteland","meadow","river"],
+	"story":["Once #mainCharacter# went on an adventure to the #placeAdj.capitalize# #destination.capitalize#. Seeing such a #placeAdj# #destination# made #mainCharacter# #emotion#."],
+	"origin":["[mainCharacter:#name# the #animal.capitalize#][destination:#place#]#story#[mainCharacter:pop][destination:pop]"]
+} 
+    
+#### Output of that grammar.  Of course, many grammars are 
+Once Gertrude the Elk went on an adventure to the Magical Forest. Seeing such a enchanted forest made Gertrude the Elk resentful.
+
+Once Carmen the Okapi went on an adventure to the Haunted Forest. Seeing such a faraway forest made Carmen the Okapi appreciative.
+
+Once Lakshmi the Lion went on an adventure to the Delightful Lagoon. Seeing such a scenic lagoon made Lakshmi the Lion jealous.
+
+Once Aiden the Quail went on an adventure to the Magical Island. Seeing such a magical island made Aiden the Quail reflective.
+
+Once Pearl the Skunk went on an adventure to the Serene Forest. Seeing such a delightful forest made Pearl the Skunk gleeful.
+```
+
+
 ### How to use Tracery as a library
 
 Import tracery 
@@ -55,16 +84,3 @@ name: ["Brittany"],
 animal: ["wombat"],
 story : ["This is a story about #name# the #animal.capitalize#"]
 ```
-
-```
-    var testGrammar = {
-        "emotion" : "happy sad reflective morose gleeful jealous resentful appreciative proud".split(" "),
-        "name" : "Jamal Aisha Marcel Pearl Gertrude Bailey Logan Aiden Scout Ambrose Beverly Takashi Hilda Nadya Salim Carmen Ming Lakshmi Naveen Ginger".split(" "),
-        "placeAdj" : "delightful haunted faraway sunlit magical enchanted serene scenic".split(" "),
-        "place" : "lagoon lake forest island grotto mountain desert wasteland meadow river".split(" "),
-        "story" : ["Once #mainCharacter# went on an adventure to the #placeAdj.capitalize# #destination.capitalize#. Seeing such a #placeAdj# #destination# made #mainCharacter# #emotion#."],
-        "origin" : ["[mainCharacter:#name# the #animal.capitalize#][destination:#place#]#story#[mainCharacter:pop]"],
-    };
-
-```
-
