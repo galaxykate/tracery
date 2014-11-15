@@ -39,9 +39,22 @@ Each symbol should be followed by an array of text strings representing rules
 ```
 or, if you're writing a long string of single words, you can use 'split'
 ```
-  "emotion" : "happy sad reflective morose gleeful jealous resentful appreciative proud".split(" "),   
+  "emotion" : "happy sad reflective morose proud".split(" "),   
 ```
 
+Rules can also contain expansion symbols, words surrounded by #'s:
+```
+mainCharacter: ["Brittany the Wombat"],
+story : ["This is a story about #mainCharacter#"]
+```
+
+Expansion symbols can have modifiers.  Modifiers can change something about the string expansion of that symbol. 
+ `#animal.capitalize#` or `#animal.a#` or `#animal.plural#`
+```
+name: ["Brittany"],
+animal: ["wombat"],
+story : ["This is a story about #name# the #animal.capitalize#"]
+```
 
 ```
     var testGrammar = {
