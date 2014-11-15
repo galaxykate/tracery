@@ -31,12 +31,16 @@ Many traces can be working on a single grammar at the same time, without getting
 
 ### Syntax overview
 ####  Grammar
-A grammar is a key-value storage system for rules
+A grammar is a key-value storage system for rules.
+
+Each symbol should be followed by an array of text strings representing rules
 ```
-
+  "emotion" : ["happy", "sad", "proud"],   
 ```
-
-
+or, if you're writing a long string of single words, you can use 'split'
+```
+  "emotion" : "happy sad reflective morose gleeful jealous resentful appreciative proud".split(" "),   
+```
 
 
 ```
