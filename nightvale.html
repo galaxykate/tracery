@@ -26,6 +26,7 @@
 		<!-- CSS: implied media=all -->
 		<!-- CSS concatenated and minified via ant build script-->
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/layout.css">
 		<link rel="stylesheet" href="css/nightvale.css">
 		<!-- end CSS-->
 
@@ -45,12 +46,21 @@
 			</header>
 
 			<div id="main" role="main">
+				<div id="title">Eternal Night Vale</div>
 				<div id="mainColumn">
 					<div id="story">
 						<div id="generated"></div>
-						<div id="more" class="touchable">Another day....?</div>
+						<div id="more" class="touchable">
+							Another night....?
+						</div>
 					</div>
 
+					<div id="vizPane"></div>
+				</div>
+				<div id="advanced">
+					<button id="explore">
+						explore grammar
+					</button>
 				</div>
 
 			</div>
@@ -73,7 +83,10 @@
 
 		<!-- scripts concatenated and minified via ant build script-->
 		<script defer src="js/libs/jquery-1.6.2.min.js"></script>
+		<script defer src="js/libs/freewall.js"></script>
 		<script defer src="js/libs/tracery.js"></script>
+		<script defer src="js/common/kcolor.js"></script>
+		<script defer src="js/plugins/statsViz.js"></script>
 		<script defer src="js/works/nightvale.js"></script>
 		<!-- end scripts-->
 

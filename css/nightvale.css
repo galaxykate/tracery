@@ -29,12 +29,26 @@ body {
 	src: url("font/JosefinSans-Light.ttf");
 }
 
+
+@font-face {
+	font-family: titleFont;
+	src: url("font/JosefinSans-Regular.ttf");
+}
+
 @font-face {
 	font-family: weather;
 	src: url("font/JosefinSans-Italic.ttf");
 }
 
-
+#title {
+	font-family: titleFont;
+	margin: 10px auto;
+	text-align: center;
+	font-size: 40px;
+	color: rgba(230, 200, 250, .5);
+	box-shadow: inset 0px 0px 130px rgba(0, 0, 0, .3), 0px 0px 130px rgba(255, 100, 255, .8);
+	background-color: rgba(30, 0, 60, .8);
+}
 #mainColumn {
 	width: 80%;
 	height: 1000px;
@@ -60,12 +74,12 @@ body {
 }
 
 .touchable {
-	
+
 	color: rgba(230, 50, 250, .4);
 }
 
 .touchable:hover {
-	
+
 	color: rgba(230, 50, 250, .8);
 }
 .columnBG {
@@ -74,29 +88,3 @@ body {
 	width: 100%;
 	height: 100%;
 }
-
-.illustration {
-	margin: 10px;
-	padding: 10px;
-	float: left;
-	display: table;
-}
-
-.caption {
-
-	display: table-caption;
-	caption-side: bottom;
-	padding: 10px;
-}
-.blended {
-	position: relative;
-	min-width: 50px;
-	min-height: 50px;
-	display: inline-block;
-	background-blend-mode: multiply;
-}
-
-.blendedImg {
-	visibility: hidden;
-}
-
