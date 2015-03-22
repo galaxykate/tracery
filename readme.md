@@ -5,7 +5,7 @@
 There are many new examples of Tracery [in use](http://crystalcodepalace/tracery.html "Examples")
 I also have an exciting new *interactive* [tutorial]http://crystalcodepalace/tracerytut.html "Tutorial")
 
-I strongly recommend using the [minified library](https://github.com/galaxykate/tracery/blob/master/js/tracery.min.js"Minified")
+I strongly recommend using the [minified library](https://github.com/galaxykate/tracery/blob/master/js/tracery.min.js)
 
 ### Write grammar objects, get generative stories
 
