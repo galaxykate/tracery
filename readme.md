@@ -2,10 +2,10 @@
 
 ## A text-expansion library
 
-There are many new examples of Tracery [in use](http://crystalcodepalace/tracery.html "Examples")
-I also have an exciting new *interactive* [tutorial]http://crystalcodepalace/tracerytut.html "Tutorial")
+There are many new examples of Tracery [in use](http://www.crystalcodepalace.com/tracery.html "Examples")
+I also have an exciting new *interactive* [tutorial](http://www.crystalcodepalace.com/traceryTut.html "Tutorial")
 
-I strongly recommend using the [minified library](https://github.com/galaxykate/tracery/blob/master/js/tracery.min.js)
+I strongly recommend using the [minified library](https://github.com/galaxykate/tracery/blob/master/js/tracery.min.js "Minified")
 
 ### Write grammar objects, get generative stories
 
@@ -19,10 +19,10 @@ I strongly recommend using the [minified library](https://github.com/galaxykate/
 	"place":["lagoon","lake","forest","island","grotto","mountain","desert","wasteland","meadow","river"],
 	"story":["Once #mainCharacter# went on an adventure to the #placeAdj.capitalize# #destination.capitalize#. Seeing such a #placeAdj# #destination# made #mainCharacter# #emotion#."],
 	"origin":["[mainCharacter:#name# the #animal.capitalize#][destination:#place#]#story#[mainCharacter:pop][destination:pop]"]
-} 
+}
 ```
-    
-#### Output of that grammar.  
+
+#### Output of that grammar.
 Of course, many grammars are more complex!
 ```
 Once Gertrude the Elk went on an adventure to the Magical Forest. Seeing such a enchanted forest made Gertrude the Elk resentful.
@@ -35,13 +35,13 @@ Once Pearl the Skunk went on an adventure to the Serene Forest. Seeing such a de
 
 ### How to use Tracery as a library
 
-Import tracery 
+Import tracery
 `<script defer src="js/libs/tracery.js"></script>`
 
 Use the `tracery` object to create a `Grammar` object from a source object (specification below)
 `tracery.createGrammar(spellbook);`
 
-The grammar can create `Trace` objects.  A `Trace` is one possible expansion of a grammar.  
+The grammar can create `Trace` objects.  A `Trace` is one possible expansion of a grammar.
 `var trace = app.grammar.createTrace();`
 
 The trace can be expanded into a tree structure, step by step, or all at once.
@@ -58,7 +58,7 @@ Traces will start their expansions with the 'origin' symbol by default, but you 
 
 Many traces can be working on a single grammar at the same time, without getting in each others way.
 
-## Input 
+## Input
 
 
 ### Syntax overview
@@ -68,11 +68,11 @@ A grammar is a key-value storage system for rules.
 ####  Rule syntax
 Each symbol should be followed by an array of text strings representing rules
 ```
-  "emotion" : ["happy", "sad", "proud"],   
+  "emotion" : ["happy", "sad", "proud"],
 ```
 or, if you're writing a long string of single words, you can use 'split'
 ```
-  "emotion" : "happy sad reflective morose proud".split(" "),   
+  "emotion" : "happy sad reflective morose proud".split(" "),
 ```
 
 Rules can also contain expansion symbols, words surrounded by #'s:
@@ -81,7 +81,7 @@ mainCharacter: ["Brittany the Wombat"],
 story : ["This is a story about #mainCharacter#"]
 ```
 
-Expansion symbols can have modifiers.  Modifiers can change something about the string expansion of that symbol. 
+Expansion symbols can have modifiers.  Modifiers can change something about the string expansion of that symbol.
  `#animal.capitalize#` or `#animal.a#` or `#animal.plural#`
 ```
 name: ["Brittany"],
