@@ -12,28 +12,25 @@ I strongly recommend using the [minified library](https://github.com/galaxykate/
 #### An example grammar
 ```
 {
-	"animal":["amoeba","mongoose","capybara","yeti","dragon","unicorn","sphinx","kangaroo","boa","nematode","sheep","quail","goat","corgi","agouti","zebra","giraffe","rhino","skunk","dolphin","whale","bullfrog","okapi","sloth","monkey","orangutan","grizzly","moose","elk","dikdik","ibis","stork","finch","nightingale","goose","robin","eagle","hawk","iguana","tortoise","panther","lion","tiger","gnu","reindeer","raccoon","opossum"],
-	"emotion":["happy","sad","reflective","morose","gleeful","jealous","resentful","appreciative","proud"],
-	"name":["Jamal","Aisha","Marcel","Pearl","Gertrude","Bailey","Logan","Aiden","Scout","Ambrose","Beverly","Takashi","Hilda","Nadya","Salim","Carmen","Ming","Lakshmi","Naveen","Ginger"],
-	"placeAdj":["delightful","haunted","faraway","sunlit","magical","enchanted","serene","scenic"],
-	"place":["lagoon","lake","forest","island","grotto","mountain","desert","wasteland","meadow","river"],
-	"story":["Once #mainCharacter# went on an adventure to the #placeAdj.capitalize# #destination.capitalize#. Seeing such a #placeAdj# #destination# made #mainCharacter# #emotion#."],
-	"origin":["[mainCharacter:#name# the #animal.capitalize#][destination:#place#]#story#[mainCharacter:pop][destination:pop]"]
+	"name": ["Arjun","Yuuma","Darcy","Mia","Chiaki","Izzi","Azra","Lina"],
+	"animal": ["unicorn","raven","sparrow","scorpion","coyote","eagle","owl","lizard","zebra","duck","kitten"],
+	"mood": ["vexed","indignant","impassioned","wistful","astute","courteous"],
+	"story": ["#hero# traveled with her pet #heroPet#.  #hero# was never #mood#, for the #heroPet# was always too #mood#."],
+	"origin": ["#[hero:#name#][heroPet:#animal#]story#"]
 }
 ```
 
 #### Output of that grammar.
 Of course, many grammars are more complex!
 ```
-Once Gertrude the Elk went on an adventure to the Magical Forest. Seeing such a enchanted forest made Gertrude the Elk resentful.
-Once Carmen the Okapi went on an adventure to the Haunted Forest. Seeing such a faraway forest made Carmen the Okapi appreciative.
-Once Lakshmi the Lion went on an adventure to the Delightful Lagoon. Seeing such a scenic lagoon made Lakshmi the Lion jealous.
-Once Aiden the Quail went on an adventure to the Magical Island. Seeing such a magical island made Aiden the Quail reflective.
-Once Pearl the Skunk went on an adventure to the Serene Forest. Seeing such a delightful forest made Pearl the Skunk gleeful.
+Lina traveled with her pet duck. Lina was never indignant, for the duck was always too indignant.
+Yuuma traveled with her pet unicorn. Yuuma was never wistful, for the unicorn was always too indignant.
+Azra traveled with her pet coyote. Azra was never wistful, for the coyote was always too impassioned.
+Yuuma traveled with her pet owl. Yuuma was never wistful, for the owl was always too courteous.
+Azra traveled with her pet zebra. Azra was never impassioned, for the zebra was always too astute.
 ```
 
-
-### How to use Tracery as a library
+### How to use Tracery as a broswer library
 
 Import tracery
 `<script defer src="js/libs/tracery.js"></script>`
@@ -58,8 +55,11 @@ Traces will start their expansions with the 'origin' symbol by default, but you 
 
 Many traces can be working on a single grammar at the same time, without getting in each others way.
 
-## Input
+### How to use Tracery as a Node.js library
 
+Use this Node library created by George Buckenham: https://github.com/v21/tracery
+
+## Input
 
 ### Syntax overview
 ####  Grammar
@@ -82,7 +82,7 @@ story : ["This is a story about #mainCharacter#"]
 ```
 
 Expansion symbols can have modifiers.  Modifiers can change something about the string expansion of that symbol.
- `#animal.capitalize#` or `#animal.a#` or `#animal.plural#`
+ `#animal.capitalize#` or `#animal.a#` or `#animal.s#`
 ```
 name: ["Brittany"],
 animal: ["wombat"],
