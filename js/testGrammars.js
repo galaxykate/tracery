@@ -1,37 +1,45 @@
 /**
  * @author Kate
  */
+/**
+ * @author Kate Compton
+ */
+var testGrammars = {
 
-var grammars = {
-    neverbar : {
-        vipTitle : ["Dr.", "Professor", "Lord", "Sir", "Captain", "His Majesty"],
-        occupationBase : ["firefighter", "scientist", "spy", "smuggler", "mechanic", "astronaut", "adventurer", "pirate", "cowboy", "vampire", "detective", "soldier", "marine", "doctor", "ninja"],
-        occupation : ["space #occupationBase#", "erotic #occupationBase#", "professional #occupationBase#", "gentleman #occupationBase#", "#occupationBase#"],
-        name : ["Chesty", "Butch", "Saber", "Drake", "Thorax", "Brash", "Abs", "Burt", "Slate", "Bret", "Duke"],
-        surnameStart : "Up Pants Chest Pants Chest Pants Chest Pants Chest Pants Chest Pants Chest Pants Chest Pants Chest West Long East North River South Snith Cross Aft Aver Ever Down Whit Rob Rod Hesel Kings Queens Ed Sift For Farring Coven Craig Cath Chil Clif Grit Grand Orla Prat Milt Wilt Berk Draft Red Black".split(" "),
-        surnameEnd : "castle hammer master end wrench bottom hammer wick shire gren glen swith bury every stern ner brath mill bly ham tine field groat sythe well bow bone wind storm horn thorne cart bry ton man watch leath heath ley".split(" "),
-        characterType : "android velociraptor dragon gorilla sasquatch alien squid cuttlefish".split(" "),
-        character : ["#characterType#", "#characterMod# #characterType#"],
+    webtest : {
+        hashtag : ["tracery", "botally", "fiction", "games", "ftw", "literature", "bobross", "twitch", "procjam", "icids15", "nanogenmo"],
+        digit : ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        emoji : ["&\\#128169;", "&\\#12816#digit#;", "&\\#128#digit##digit##digit#;", "&\\#128#digit##digit##digit#;", "&\\#128#digit##digit##digit#;", "&\\#128#digit##digit##digit#;"],
+        imgURL : ["https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Cucciolo_gatto_Bibo.jpg/1920px-Cucciolo_gatto_Bibo.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Young_cats.jpg/1920px-Young_cats.jpg", "https://upload.wikimedia.org/wikipedia/commons/c/cf/Stray_kitten_Rambo001.jpg"],
+        img : "<img src='#imgURL#' width=200 /><br>",
+        style : 'style="color:blue;display:inline-block;"',
+        origin : "<div #style#>#img# \\##hashtag# \\##hashtag# #emoji# #emoji# #emoji# #emoji#</div>"
+    },
 
-        drink : ["cup of chamomile tea", "glass of milk", "shot of vodka", "dry martini", "fuzzy navel", "appletini", "double shot of gin", "Campari", "glass of champagne", "bottle of Domaine Leroy Musigny Grand Cru"],
-        said : ["purred", "whispered", "said", "murmurred", "growled"],
-        characterMod : ["cybernetic", "robotic"],
-        description : ["muscled", "sexy", "dark", "well-dressed", "masculine", "dramatic", "dramatically lit", "boyish", "burly", "handsome", "erotic"],
-        surname : ["Mc#surnameStart.capitalize##surnameEnd#", "#surnameStart.capitalize##surnameEnd#"],
+    art : {
+        hexDigit : ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"],
+        digit : ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
 
-        locationAdj : ["dimly lit", "crowded", "smoke-filled"],
-        locationBase : ["space station", "film studio", "70s nightclub", "undersea research station"],
+        color : ["\\##hexDigit##hexDigit##hexDigit##hexDigit##hexDigit##hexDigit#"],
+        shape : ['rect width="#num#" height="#num#" x="#num#" y="#num#"', 'circle cx="#num#" cy="#num#" r="#num#"', 'polygon points="#num#,#num# #num#,#num# #num#,#num#"'],
 
-        titleNoun : ["desire", "night", "awakening", "surrender", "obsession", "vision", "proposition", "game", "promise", "arrangement", "treasure", "dream", "embrace", "struggle", "pleasure", "discovery", "wish", "need"],
-        titleAdj : ["dark", "erotic", "leather", "rough", "punishing", "burly", "country", "neon", "big-city", "whiskey", "shattered", "broken", "breathless", "tangled", "complicated", "captured", "priceless", "bound", "sinful", "forgotten", "forbidden", "gothic", "interstellar"],
-        title : ["#titleAdj.a# #titleNoun#", "#titleAdj# #titleNoun.s#", "#mcName#'s #titleNoun#"],
-       
-response:[" <p>The #description# #scType# looked at him with interest.  'I'm #scName#.  #vipTitle# #scName# #surname#, #occupation#,' the #scType# #said#. 'I'll have #drink.a#.' <p>"],
-        meeting: ["#scType.a.capitalize# was sitting by the bar, alone, #description#, #description#.  #mcName# introduced himself.  'I'm #mcName#', he #said#. 'I'm #occupation.a#.  Can I buy you a drink?'"],
- entry : ["...<p>#mcName# #surname# walked into the #locationAdj# #place#."],
-        plot : ["<h2>#title.capitalizeAll#</h2><p>#entry#<p>#meeting#<p>#response#"],
-        origin : "#[place:#locationBase#][mcType:#character#][scType:#character#][mcName:#name#][scName:#name#]plot#",
+        num : ["#digit##digit#"],
+        stroke : ['stroke="#color#" stroke-width="#digit#" stroke-opacity="0.#digit#"', ""],
+        fill : ['fill="#color#" fill-opacity="0.#digit#"'],
+        makeShape : ["<#shape# #stroke# #fill# />"],
+        bg : ["<rect width='300' height='300' x='-100' y='-100' fill='#color#' />"],
+        origin : ['<svg width="100" height="100">#bg##makeShape##makeShape##makeShape##makeShape##makeShape##makeShape##makeShape#</svg>']
+    },
 
+    landscape : {
+        origin : "[myPlace:#path#]#line#",
+        line : ["#mood.capitalize# and #mood#, the #myPlace# was #mood# with #substance#", "#nearby.capitalize# #myPlace.a# #move.ed# through the #path#, filling me with #substance#"],
+
+        nearby : ["beyond the #path#", "far away", "ahead", "behind me"],
+        substance : ["light", "reflections", "mist", "shadow", "darkness", "brightness", "gaiety", "merriment"],
+        mood : ["overcast", "alight", "clear", "darkened", "blue", "shadowed", "illuminated", "silver", "cool", "warm", "summer-warmed"],
+        path : ["stream", "brook", "path", "ravine", "forest", "fence", "stone wall"],
+        move : ["spiral", "twirl", "curl", "dance", "twine", "weave", "meander", "wander", "flow"],
     },
 
     nightvale : {
@@ -95,7 +103,7 @@ response:[" <p>The #description# #scType# looked at him with interest.  'I'm #sc
         foo : ["#never# trust a #concreteNoun#. You can trust a #concreteNoun#, #maybe#", "I #verb#, therefore I am", "it's #concreteNoun.s# all the way down", "#concept# is the new #concept#", "the only good #concreteNoun# is a dead #concreteNoun#"],
 
         saying : ["Don't #transitiveEmotion# the #myThing# because the #myThing# is #fullOf# #mySub#.  You will be #fullOf# #mySub#, too, #someday#.", "The #myThing# #react.s#.  The #myThing# #react.s#. The #myThing# #react.s# with #emotion# because it #sense.s# the #concept# that it will never have.", "We #sense# the #myThing# and #react# with #emotion#.  You #sense# the #myThing# and #react# with #emotion#.  The #myThing# #sense.s# you but does not #react#.", "The #natureNoun# is made of #mySub#. The #natureNoun# is made of #mySub#. We are all made of #mySub# and #vagueReaction#.", "[emo1:#transitiveEmotion#]#never.capitalize# #emo1# #concept#. Only ever #emo1# #concept#.  How could you #emo1# what you can #never# #sense#?"],
-        origin : ["#[myThing:#concreteNoun#][mySub:#substance#]saying#<p>Welcome to Night Vale. <p>...</p>#[mc:#character#][mcDesc:#charDescription#][myNoun:#concreteNoun#]episode#<p>...</p>Goodnight, Night Vale, goodnight."]
+        origin : ["[myThing:#concreteNoun#][mySub:#substance#]#saying#<p>Welcome to Night Vale. <p>...</p>[mc:#character#][mcDesc:#charDescription#][myNoun:#concreteNoun#]#episode#<p>...</p>Goodnight, Night Vale, goodnight."]
     },
 
     poem : {
@@ -119,11 +127,11 @@ response:[" <p>The #description# #scType# looked at him with interest.  'I'm #sc
         ah : ["ah", "alas", "oh", "yet", "but", "and"],
         on : ["on", "in", "above", "beneath", "under", "by"],
 
-punctutation: [",", ":", " ", "!", ".", "?"],
+        punctutation : [",", ":", " ", "!", ".", "?"],
 
         noun : ["#ground#", "#agent#"],
         line : ["My #noun#, #poeticDesc#, my #adj# one", "More #adj# than #noun# #poeticDesc#", "#move.capitalize# with me #on# #poeticAdj# #ground#", "The #agent.s# #move#, #adj# and #adj#", "#poeticDesc.capitalize#, #poeticDesc#, #ah#, #poeticDesc#", "How #adj# is the #poeticDesc# #sub#", "#poeticDesc.capitalize# with #emotion#, #transVerb.s# the #noun#"],
-      poem: ["#line##punctutation#<br>#line##punctutation#<br>#line##punctutation#<br>#line#."],
+        poem : ["#line##punctutation#<br>#line##punctutation#<br>#line##punctutation#<br>#line#."],
         origin : "#[sub:#noun#]poem#",
     },
 
@@ -173,16 +181,12 @@ punctutation: [",", ":", " ", "!", ".", "?"],
 
     scifi : {
 
-        firstSyl : "B C D F G H J K L M N P Qu R S T V W X Y Z St Fl Bl Pr Kr Ll Chr Sk Br Sth Ch Dhr Dr Sl Sc Sh Thl Thr Pl Fr Phr Phl Wh".split(" "),
+        firstSyl : "B C D F G Z St Fl Bl Pr Kr Ll Chr Sk Br Sth  H J K L M N P Qu R S T V W X Y Z  Ch Dhr Dr Sl Sc Sh Thl Thr Pl Fr Phr Phl Wh".split(" "),
         middleSyl : "an all ar art air aean af av ant app ab er en eor eon ent enth irt ian ion iont ill il ipp in is it ik ob ov orb oon ion uk uf un ull urk estr antr okl ackl".split(" "),
         lastSyl : "a ia ea u y en am is on an o io i el ios ax ox ix ex izz ius ian ean ekang anth".split(" "),
 
         butchName : ["Chesty", "Manley", "Brock", "Stone", "Brick", "Butch", "Bruce", "Steel", "Saber", "Tex", "Rock", "Drake", "Ace", "Knute", "Wolf", "Thorax", "Brad", "Abs", "Burt", "Slate", "Bret", "Duke"],
-
         alienName : ["#firstSyl##middleSyl##lastSyl#", "#firstSyl##lastSyl#", "#firstSyl##lastSyl#-#firstSyl##lastSyl#"],
-
-        sexy : ["muscled", "sexy", "dark", "well-dressed", "masculine", "dramatic", "dramatically lit", "boyish", "burly", "handsome", "erotic", "many-bossomed", "supple", "nude"],
-        occupation : ["lumberjack", "firefighter", "scientist", "spy", "wizard", "radio broadcaster", "smuggler", "mechanic", "astronaut", "adventurer", "pirate", "cowboy", "vampire", "detective", "soldier", "marine", "doctor", "ninja", "waitress", "burlesque dancer", "ballerina", "opera singer", "gogo dancer", "rollerskater"],
 
         physicsParticle : ["quark", "photon", "lepton", "muon"],
         scienceVerb : ["evaporate", "decay", "phase-shift", "teleport", "destabilize", "sublimate"],
@@ -199,6 +203,9 @@ punctutation: [",", ":", " ", "!", ".", "?"],
         transportSystem : ["#scienceBlargleStart##transitPlain#", "#transitMod# #scienceBlargleStart# #transitPlain#"],
         travelPlot : ["#mc# punched '#mcDestinationSystem#' into the #communicationDevice#. There was still one ticket left on the #transportSystem#, but he'd have to take a #transportSystem# the rest of the way to Planet #mcDestination#.'"],
 
+        sexy : ["muscled", "sexy", "dark", "well-dressed", "masculine", "dramatic", "dramatically lit", "boyish", "burly", "handsome", "erotic", "many-bossomed", "supple", "nude"],
+        occupation : ["lumberjack", "firefighter", "scientist", "spy", "wizard", "radio broadcaster", "smuggler", "mechanic", "astronaut", "adventurer", "pirate", "cowboy", "vampire", "detective", "soldier", "marine", "doctor", "ninja", "waitress", "burlesque dancer", "ballerina", "opera singer", "gogo dancer", "rollerskater"],
+
         vipTitle : ["Vice President", "Mr.", "Detective", "Senator", "Chairman", "Princess", "Lord", "Lady", "Professor", "Grand Inquisistor", "High Priest", "President"],
         boss : ["#vipTitle# #alienName#"],
 
@@ -214,4 +221,5 @@ punctutation: [",", ":", " ", "!", ".", "?"],
 
     },
 
-}
+};
+
