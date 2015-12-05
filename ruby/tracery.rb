@@ -35,7 +35,7 @@ module Tracery
 		return parsed
 	end
 	
-	#TODO_: needs heavy refactoring -- no nesting in ruby (ie. move to another class w/ shared state)
+	#TODO_: needs heavy refactoring -- no nesting in ruby (ie. move entire parser to another class w/ shared state)
 	def createSection(start, finish, type, results, lastEscapedChar, escapedSubstring, rule)
 		if(finish - start < 1) then
 			results[:errors].push("#{start}: 0-length section of type #{type}");
@@ -132,8 +132,6 @@ module Tracery
 end
 
 class TraceryNode
-
-	#attr_accessor :grammar, :parent, :depth, :childIndex, :raw, :type, :isExpanded, :children, :finishedText, :childRule, :expansionErrors
 	attr_accessor :grammar, :depth, :finishedText, :expansionErrors, :children
 	
 	include Tracery
@@ -240,7 +238,7 @@ class TraceryNode
 					if(mod.nil?)
 						@finishedText += "((.#{modifier}))"
 					else
-						@finishedText = mod(@finishedText)
+						@finishedText = mod.call(@finishedText)
 					end
 				}
 			when 2 then
@@ -502,7 +500,13 @@ class TraceryTests
 			"story" => ["[mc:#animal#]Once there was #mc.a#, a very #mood# #mc#"]
 		});
 		
+		require "./mods-eng-basic"
+		testGrammar.addModifiers(Modifiers.baseEngModifiers);
 		puts testGrammar.flatten("#story#")
+		
+		grammar = createGrammar({"origin" => "foo"});
+		grammar.addModifiers(Modifiers.baseEngModifiers);
+		puts grammar.flatten("#origin#")
 	end
 end
 
