@@ -497,7 +497,7 @@ class TraceryTests
 			"animal" => ["capybara", "unicorn", "university", "umbrella", "u-boat", "boa", "ocelot", "zebu", "finch", "fox", "hare", "fly"],
 			"color" => ["yellow", "maroon", "indigo", "ivory", "obsidian"],
 			"mood" => ["elated", "irritable", "morose", "enthusiastic"],
-			"story" => ["[mc:#animal#]Once there was #mc.a#, a very #mood# #mc#"]
+			"story" => ["[mc:#animal#]Once there was #mc.a#, a very #mood# #mc#. In a pack of #color.ed# #mc.s#!"]
 		});
 		
 		require "./mods-eng-basic"

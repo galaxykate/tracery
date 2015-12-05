@@ -5,10 +5,6 @@ module Modifiers
 		return ['a', 'e', 'i', 'o', 'u'].member?(c.downcase)
 	end
 	
-	def self.isAlphaNum(c)
-		return ('A'..'z').member?(c) || ('0'..'9').member?(c)
-	end
-	
 	def self.baseEngModifiers
 		{
 			"varyTune" => lambda do |s|
@@ -49,54 +45,47 @@ module Modifiers
 				end
 				
 				return "a #{s}"
+			end,
+			
+			"s" => lambda do |s|
+				case(s[-1])
+					when 's' then
+						return s + "es"
+					when 'h' then
+						return s + "es"
+					when 'x' then
+						return s + "es"
+					when 'y' then
+						if(!isVowel(s[-2])) then
+							return s[0...-1] + "ies"
+						else
+							return s + "s"
+						end
+					else
+						return s + "s"
+				end
+			end,
+			
+			"ed" => lambda do |s|
+				case(s[-1])
+					when 's' then
+						return s + "ed"
+					when 'e' then
+						return s + "d"
+					when 'h' then
+						return s + "ed"
+					when 'x' then
+						return s + "ed"
+					when 'y' then
+						if(!isVowel(s[-2])) then
+							return s[0...-1] + "ied"
+						else
+							return s + "d"
+						end
+					else
+						return s + "ed"
+				end
 			end
 		}
 	end
 end
-
-    # s : function(s) {
-        # switch (s.charAt(s.length -1)) {
-        # case 's':
-            # return s + "es";
-            # break;
-        # case 'h':
-            # return s + "es";
-            # break;
-        # case 'x':
-            # return s + "es";
-            # break;
-        # case 'y':
-            # if (!isVowel(s.charAt(s.length - 2)))
-                # return s.substring(0, s.length - 1) + "ies";
-            # else
-                # return s + "s";
-            # break;
-        # default:
-            # return s + "s";
-        # }
-    # },
-    # ed : function(s) {
-        # switch (s.charAt(s.length -1)) {
-        # case 's':
-            # return s + "ed";
-            # break;
-        # case 'e':
-            # return s + "d";
-            # break;
-        # case 'h':
-            # return s + "ed";
-            # break;
-        # case 'x':
-            # return s + "ed";
-            # break;
-        # case 'y':
-            # if (!isVowel(s.charAt(s.length - 2)))
-                # return s.substring(0, s.length - 1) + "ied";
-            # else
-                # return s + "d";
-            # break;
-        # default:
-            # return s + "ed";
-        # }
-    # }
-# };
