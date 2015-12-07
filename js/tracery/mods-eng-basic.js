@@ -116,9 +116,6 @@ var baseEngModifiers = {
             else
                 return s + "d";
             break;
-        case 'f':
-            return s.substring(0, s.length - 1) + "ved";  
-            break;
         default:
             return s + "ed";
         }
