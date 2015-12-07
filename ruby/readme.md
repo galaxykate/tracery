@@ -22,4 +22,4 @@ puts grammar.flatten("#origin#")
 * Needs to be manually tested to ensure all features are working
 * Not yet compatible with `:symbolic` hash inputs
 * Ruby gem
-* ~See if it works with JSON input grammars~ works fine with JSON
+* ~~See if it works with JSON input grammars~~ works fine with JSON
