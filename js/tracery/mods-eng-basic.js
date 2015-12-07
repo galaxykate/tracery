@@ -89,6 +89,9 @@ var baseEngModifiers = {
             else
                 return s + "s";
             break;
+        case 'f':
+            return s.substring(0, s.length - 1) + "ves";  
+            break;
         default:
             return s + "s";
         }
@@ -112,6 +115,9 @@ var baseEngModifiers = {
                 return s.substring(0, s.length - 1) + "ied";
             else
                 return s + "d";
+            break;
+        case 'f':
+            return s.substring(0, s.length - 1) + "ved";  
             break;
         default:
             return s + "ed";
