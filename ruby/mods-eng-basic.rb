@@ -1,5 +1,3 @@
-
-
 module Modifiers
 	def self.isVowel(c)
 		return ['a', 'e', 'i', 'o', 'u'].member?(c.downcase)
@@ -34,7 +32,7 @@ module Modifiers
 			
 			"a" => lambda do |s|
 				if(s.length > 0) then
-					if(s =~ /^u(?:\wi)|(?:\W)/) then
+					if(s =~ /^u((\wi)|(\W))/) then
 						#catches "university" and "u-boat"
 						return "a #{s}"
 					end
