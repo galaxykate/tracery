@@ -1,0 +1,81 @@
+html {
+	padding:0px;
+	margin:0px;
+	height:100%;
+	font-family:"Trebuchet MS",Helvetica,sans-serif;
+}
+body {
+	background-color:rgba(30, 126, 220, .2);
+	padding:0px;
+	margin:0px;
+	height:100%;
+}
+#main-col {
+	position:relative;
+	margin:0px auto;
+	max-width:1200px;
+	height:100%;padding 16px;
+	background-color:rgba(250, 248, 242, 1);
+	box-shadow:1px 2px 10px rgba(0,0, 0, .4);
+}
+table {
+	background-color:rgba(250, 248, 242, 1);
+	margin:5px;
+	box-shadow:1px 1px 10px rgba(0,0, 0, .4);
+}
+tr:nth-child(even) {
+	background-color:#f2f2f2
+}
+tr:nth-child(odd) {
+	background-color:#ffffff
+}
+.tracery-expansion-root {
+	min-width:600px;
+}
+.tracery-exp {
+	display:inline-block;
+	margin:2px;
+	box-shadow:1px 1px 1px rgba(0,0, 0, .2);
+	background-color:rgba(250, 248, 242, .2);
+}
+.tracery-exp-type1 {
+	background-color:rgba(220, 0, 242, .1);
+}
+.tracery-exp-push {
+	background-color:rgba(130, 210, 252, 1);
+}
+.tracery-exp-pop {
+	background-color:rgba(160, 250, 252, 1);
+}
+.tracery-exp-symbol {
+}
+.tracery-exp-childrule {
+	color:rgba(120, 40, 242, 1);
+}
+.tracery-exp-errors {
+	font-size:8px;
+	box-sizing:border-box;
+	padding:1px;
+	color:rgba(120, 40, 20, 1);
+	background-color:rgba(250, 90, 80, 1);
+}
+.tracery-exp-error {
+	font-size:10px;
+	box-sizing:border-box;
+	padding:1px;
+	color:rgba(120, 40, 20, 1);
+	background-color:rgba(250, 190, 180, .4);
+}
+.tracery-exp-header {
+	box-sizing:border-box;
+	padding:2px;
+	font-size:10px;
+	width:100%;
+	overflow:hidden;
+	box-shadow:1px 1px 10px rgba(0,0, 0, .4);
+	background-color:rgba(255, 255, 255, .2);
+}
+.tracery-exp-contents {
+	box-shadow:1px 1px 10px rgba(0,0, 0, .4);
+	background-color:rgba(55, 55, 55, .2);
+}

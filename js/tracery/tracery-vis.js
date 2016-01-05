@@ -2,6 +2,25 @@
  * @author Kate
  */
 
+tracery.Grammar.prototype.calculateDepth = function(originWord) {
+    // Iterate through the grammar and tag each symbol with the depth it's visited at
+    var keys = Object.keys(this.symbols);
+    var symbols = this.symbols;
+    $.each(keys, function(index, key) {
+       
+        var symbol = symbols[key];
+        symbol.stats = {
+            visits : [],
+            leafPct : 0,
+        };
+
+        // Flag if a leaf symbol
+        var rules = symbol.getActiveRules();
+     //   console.log(rules);
+
+    });
+};
+
 tracery.Grammar.prototype.distributionVisualization = function(holder, settings) {
     // Create the visualization of usages
     // For each symbol in the grammar, count how many times it was used
@@ -57,7 +76,7 @@ tracery.Grammar.prototype.distributionVisualization = function(holder, settings)
                     }
                     var bar = $("<div/>", {
                         class : "bar",
-                     }).appendTo(graph).css({
+                    }).appendTo(graph).css({
                         width : h + "%",
                         top : ((index / count) * 100) + "%",
                         height : ((1 / count) * 100) + "%",
