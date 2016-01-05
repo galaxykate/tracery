@@ -31,56 +31,55 @@ function runTests() {
 	Math.seedrandom(Math.random());
 	// Create all the test cases
 	var tests = {
-		/*
-		 plaintextShort : {
-		 src : "a",
-		 },
-		 plaintextLong : {
-		 src : "Emma Woodhouse, handsome, clever, and rich, with a comfortable home and happy disposition, seemed to unite some of the best blessings of existence; and had lived nearly twenty-one years in the world with very little to distress or vex her.",
-		 },
 
-		 // Escape chars
-		 escapeQuotes : {
-		 src : "\"test\" and \'test\'"
-		 },
-		 escapeBrackets : {
-		 src : "\\[\\]"
-		 },
-		 escapeHash : {
-		 src : "\\#"
-		 },
-		 unescapeCharSlash : {
-		 src : "\\\\"
-		 },
-		 escapeMelange1 : {
-		 src : "An action can have inner tags: \[key:\#rule\#\]"
-		 },
-		 escapeMelange2 : {
-		 src : "A tag can have inner actions: \"\\#\\[myName:\\#name\\#\\]story\\[myName:POP\\]\\#\""
-		 },
+		plaintextShort : {
+			src : "a",
+		},
+		plaintextLong : {
+			src : "Emma Woodhouse, handsome, clever, and rich, with a comfortable home and happy disposition, seemed to unite some of the best blessings of existence; and had lived nearly twenty-one years in the world with very little to distress or vex her.",
+		},
 
-		 // Web-specifics
-		 emoji : {
-		 src : "💻🐋🌙🏄🍻"
-		 },
+		// Escape chars
+		escapeQuotes : {
+			src : "\"test\" and \'test\'"
+		},
+		escapeBrackets : {
+			src : "\\[\\]"
+		},
+		escapeHash : {
+			src : "\\#"
+		},
+		unescapeCharSlash : {
+			src : "\\\\"
+		},
+		escapeMelange1 : {
+			src : "An action can have inner tags: \[key:\#rule\#\]"
+		},
+		escapeMelange2 : {
+			src : "A tag can have inner actions: \"\\#\\[myName:\\#name\\#\\]story\\[myName:POP\\]\\#\""
+		},
 
-		 unicode : {
-		 src : "&\\#x2665; &\\#x2614; &\\#9749; &\\#x2665;"
-		 },
+		// Web-specifics
+		emoji : {
+			src : "💻🐋🌙🏄🍻"
+		},
 
-		 svg : {
-		 src : '<svg width="100" height="70"><rect x="0" y="0" width="100" height="100" #svgStyle#/> <rect x="20" y="10" width="40" height="30" #svgStyle#/></svg>'
-		 },
+		unicode : {
+			src : "&\\#x2665; &\\#x2614; &\\#9749; &\\#x2665;"
+		},
 
-		 // Push
-		 pushBasic : {
-		 src : "[pet:#animal#]You have a #pet#. Your #pet# is #mood#."
-		 },
+		svg : {
+			src : '<svg width="100" height="70"><rect x="0" y="0" width="100" height="100" #svgStyle#/> <rect x="20" y="10" width="40" height="30" #svgStyle#/></svg>'
+		},
 
-		 pushPop : {
-		 src : "[pet:#animal#]You have a #pet#. [pet:#animal#]Pet:#pet# [pet:POP]Pet:#pet#"
-		 },
-		 */
+		// Push
+		pushBasic : {
+			src : "[pet:#animal#]You have a #pet#. Your #pet# is #mood#."
+		},
+
+		pushPop : {
+			src : "[pet:#animal#]You have a #pet#. [pet:#animal#]Pet:#pet# [pet:POP]Pet:#pet#"
+		},
 
 		tagAction : {
 			src : "#[pet:#animal#]nonrecursiveStory# post:#pet#"
@@ -93,35 +92,35 @@ function runTests() {
 		missingModifier : {
 			src : "#animal.foo#"
 		},
-		
+
 		modifierWithParams : {
 			src : "[pet:#animal#]#nonrecursiveStory# -> #nonrecursiveStory.replace(beach,mall)#"
 		},
 
-		/*
-		 recursivePush : {
-		 src : "[pet:#animal#]#recursiveStory#"
-		 },
+		recursivePush : {
+			src : "[pet:#animal#]#recursiveStory#"
+		},
 
-		 // Errors
+		// Errors
 
-		 unmatchedHash : {
-		 src : "#unmatched"
-		 },
-		 missingSymbol : {
-		 src : "#unicorns#"
-		 },
-		 missingRightBracket : {
-		 src : "[pet:unicorn"
-		 },
-		 missingLeftBracket : {
-		 src : "pet:unicorn]"
-		 }, justALotOfBrackets : {
-		 src : "[][]][][][[[]]][[]]]]"
-		 },bracketTagMelange : {
-		 src : "[][#]][][##][[[##]]][#[]]]]"
-		 },
-		 */
+		unmatchedHash : {
+			src : "#unmatched"
+		},
+		missingSymbol : {
+			src : "#unicorns#"
+		},
+		missingRightBracket : {
+			src : "[pet:unicorn"
+		},
+		missingLeftBracket : {
+			src : "pet:unicorn]"
+		},
+		justALotOfBrackets : {
+			src : "[][]][][][[[]]][[]]]]"
+		},
+		bracketTagMelange : {
+			src : "[][#]][][##][[[##]]][#[]]]]"
+		},
 
 	};
 
@@ -165,14 +164,14 @@ function rootToDiv(root, holder) {
 	var div = $("<div/>", {
 		"class" : "tracery-exp"
 	}).appendTo(holder).mouseenter(function() {
-	//	console.log(root);
+		//	console.log(root);
 	});
 
 	if (root.type >= 0) {
 		div.addClass("tracery-exp-type" + root.type);
 	}
 	var header = $("<div/>", {
-		html : root.finishedText,
+		text : root.finishedText,
 		"class" : "tracery-exp-header"
 	}).appendTo(div);
 
