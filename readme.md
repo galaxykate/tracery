@@ -69,7 +69,15 @@ Putting a **key** in hashtags, in a Tracery syntax object, will create a expansi
 Each top-level key-value pair in the raw JSON object creates a **symbol**.  The symbol's *key* is set from the key, and the *value* determines the **ruleset**.
 
 ### Modifier
-A function that takes a string and returns a string, 
+A function that takes a string (and optionally parameters) and returns a string.  A set of these is included in mods-eng-basic.js.  Modifiers are applied, in order, after a tag is fully expanded.
+
+To apply a modifier, add its name after a period, after the tag's main symbol:
+	#animal.capitalize#
+	#booktitle.capitalizeAll#
+	Hundreds of #animal.s#
+
+Modifiers can have parameters, too! (soon they will can have parameter that contain tags, which will be expanded when applying the modifier, but not yet)
+	#story.replace(he,she).replace(him,her).replace(his,hers)#
 
 ### Action
 An action that occurs when its node is expanded.  Built-in actions are 
