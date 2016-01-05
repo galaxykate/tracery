@@ -68,6 +68,7 @@ var tracery = function() {
 				this.finishedText += this.children[i].finishedText;
 			}
 		} else {
+			// In normal operation, this shouldn't ever happen
 			this.errors.push("No child rule provided, can't expand children");
 			console.warn("No child rule provided, can't expand children");
 		}
@@ -139,12 +140,30 @@ var tracery = function() {
 				this.expandChildren(selectedRule, preventRecursion);
 
 				// Apply modifiers
+				// TODO: Update parse function to not trigger on hashtags within parenthesis within tags,
+				//   so that modifier parameters can contain tags "#story.replace(#protagonist#, #newCharacter#)#"
 				for (var i = 0; i < this.modifiers.length; i++) {
-					var mod = this.grammar.modifiers[this.modifiers[i]];
-					if (!mod)
-						this.finishedText += "((." + this.modifiers[i] + "))";
-					else
-						this.finishedText = mod(this.finishedText);
+					var modName = this.modifiers[i];
+					var modParams = [];
+					if (modName.indexOf("(") > 0) {
+						var regExp = /\(([^)]+)\)/;
+
+						// Todo: ignore any escaped commas.  For now, commas always split
+						var modParams = regExp.exec(this.modifiers[i])[1].split(",");
+						modName = this.modifiers[i].substring(0, modName.indexOf("("));
+					}
+
+					var mod = this.grammar.modifiers[modName];
+
+					// Missing modifier?
+					if (!mod) {
+						this.errors.push("Missing modifier " + modName);
+						this.finishedText += "((." + modName + "))";
+					} else {
+						this.finishedText = mod(this.finishedText, modParams);
+
+					}
+
 				}
 
 				// Perform post-actions
@@ -486,7 +505,6 @@ var tracery = function() {
 	};
 
 	Grammar.prototype.popRules = function(key) {
-		console.log("pop");
 		if (!this.symbols[key])
 			this.errors.push("Can't pop: no symbol for key " + key);
 		this.symbols[key].popRules();
@@ -608,6 +626,7 @@ var tracery = function() {
 						}
 						depth++;
 						break;
+
 					case ']':
 						depth--;
 
@@ -615,7 +634,6 @@ var tracery = function() {
 						if (depth === 0 && !inTag) {
 							createSection(start, i, 2);
 							start = i + 1;
-
 						}
 						break;
 

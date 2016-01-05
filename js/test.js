@@ -85,8 +85,17 @@ function runTests() {
 		tagAction : {
 			src : "#[pet:#animal#]nonrecursiveStory# post:#pet#"
 		},
-		test : {
+
+		testComplexGrammar : {
 			src : "#origin#"
+		},
+
+		missingModifier : {
+			src : "#animal.foo#"
+		},
+		
+		modifierWithParams : {
+			src : "[pet:#animal#]#nonrecursiveStory# -> #nonrecursiveStory.replace(beach,mall)#"
 		},
 
 		/*
@@ -124,7 +133,6 @@ function runTests() {
 		var test = tests[testNames[i]];
 		var root = grammar.expand(test.src);
 		test.resultRoot = root;
-		console.log(root);
 		test.resultGen = root.finishedText;
 
 	}
@@ -142,7 +150,6 @@ function runTests() {
 			text : test.src
 		}).appendTo(data);
 
-		console.log(test.resultRoot);
 		var expansionCell = $("<td/>", {
 			class : "tracery-expansion-root"
 		}).appendTo(data);
@@ -158,7 +165,7 @@ function rootToDiv(root, holder) {
 	var div = $("<div/>", {
 		"class" : "tracery-exp"
 	}).appendTo(holder).mouseenter(function() {
-		console.log(root);
+	//	console.log(root);
 	});
 
 	if (root.type >= 0) {

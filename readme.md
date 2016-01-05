@@ -1,5 +1,11 @@
 # Tracery
 
+## About
+Tracery was developed by Kate Compton, beginning March 2013 as a class assignment.
+This is version 0.7
+(This is the first numbered version of Tracery, chosen arbitrarily. All basic syntax is stable, but some advanced features like nested rules, if-statements, and modifiers with parameters are still in flux)
+
+
 ## Basic usage
 
 ### Create a grammar
@@ -89,6 +95,7 @@ If there is only one rule, it is acceptable short hand to leave off the array, b
 These use the default distribution of the Grammar that owns them, which itself defaults to regular stateless pseudo-randomness.
 
 #### Rulesets with conditions, distributions, or ranked fallbacks
+### **this feature is under development, coming soon
 These rulesets are created when the raw JSON has an *object* rather than an *array* as the value.
 
 Some attributes of this object can be:
