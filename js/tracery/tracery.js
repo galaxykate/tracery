@@ -149,8 +149,13 @@ var tracery = function() {
 						var regExp = /\(([^)]+)\)/;
 
 						// Todo: ignore any escaped commas.  For now, commas always split
-						var modParams = regExp.exec(this.modifiers[i])[1].split(",");
-						modName = this.modifiers[i].substring(0, modName.indexOf("("));
+						var results = regExp.exec(this.modifiers[i]);
+						if (!results || results.length < 2) {
+						} else {
+							var modParams = results[1].split(",");
+							modName = this.modifiers[i].substring(0, modName.indexOf("("));
+						}
+
 					}
 
 					var mod = this.grammar.modifiers[modName];
@@ -234,21 +239,27 @@ var tracery = function() {
 		var grammar = this.node.grammar;
 		switch(this.type) {
 		case 0:
-			this.ruleNode = new TraceryNode(grammar, 0, {
-				type : -1,
-				raw : this.rule
-			});
-			this.ruleNode.expand();
-			this.ruleText = this.ruleNode.finishedText;
+			// split into sections (the way to denote an array of rules)
+			this.ruleSections = this.rule.split(",");
+			this.finishedRules = [];
+			this.ruleNodes = [];
+			for (var i = 0; i < this.ruleSections.length; i++) {
+				var n = new TraceryNode(grammar, 0, {
+					type : -1,
+					raw : this.ruleSections[i]
+				});
+				n.expand();
+				this.finishedRules.push(n.finishedText);
+			}
 
 			// TODO: escape commas properly
-			grammar.pushRules(this.target, this.ruleText.split(/,/), this);
+			grammar.pushRules(this.target, this.finishedRules, this);
 			break;
 		case 1:
 			grammar.popRules(this.target);
 			break;
 		case 2:
-			grammar.flatten(this.target);
+			grammar.flatten(this.target, true);
 			break;
 		}
 
@@ -433,6 +444,10 @@ var tracery = function() {
 		return this.stack[this.stack.length - 1].selectRule();
 	};
 
+	Symbol.prototype.rulesToJSON = function() {
+		return JSON.stringify(this.rawRules);
+	};
+
 	var Grammar = function(raw, settings) {
 		this.modifiers = {};
 		this.loadFromRawObj(raw);
@@ -488,8 +503,23 @@ var tracery = function() {
 		return root;
 	};
 
-	Grammar.prototype.flatten = function(rule) {
-		return this.expand(rule).finishedText;
+	Grammar.prototype.flatten = function(rule, allowEscapes) {
+		var root = this.expand(rule);
+		 
+		if (!allowEscapes) {
+			root.finishedText = root.finishedText.replace(/\\/g, "");
+		}
+		return root.finishedText;
+	};
+
+	Grammar.prototype.toJSON = function() {
+		var keys = Object.keys(this.symbols);
+		var symbolJSON = [];
+		for (var i = 0; i < keys.length; i++) {
+			var key = keys[i];
+			symbolJSON.push(' "' + key + '" : ' + this.symbols[key].rulesToJSON());
+		}
+		return "{\n" + symbolJSON.join(",\n") + "\n}";
 	};
 
 	// Create or push rules
@@ -598,7 +628,8 @@ var tracery = function() {
 				}
 				var rawSubstring;
 				if (lastEscapedChar !== undefined) {
-					rawSubstring = escapedSubstring + rule.substring(lastEscapedChar + 1, end);
+					rawSubstring = escapedSubstring + "\\" + rule.substring(lastEscapedChar + 1, end);
+				
 				} else {
 					rawSubstring = rule.substring(start, end);
 				}
@@ -609,7 +640,7 @@ var tracery = function() {
 				lastEscapedChar = undefined;
 				escapedSubstring = "";
 			};
-
+				
 			for (var i = 0; i < rule.length; i++) {
 
 				if (!escaped) {
@@ -688,6 +719,7 @@ var tracery = function() {
 			return sections;
 		},
 	};
+	
 
 	// Externalize
 	tracery.TraceryNode = TraceryNode;
@@ -698,3 +730,5 @@ var tracery = function() {
 	return tracery;
 }();
 
+
+//module.exports = tracery; 
