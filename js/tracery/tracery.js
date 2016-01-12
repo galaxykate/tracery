@@ -188,9 +188,16 @@ var tracery = function() {
 				break;
 
 			}
+
 		} else {
 			//console.warn("Already expanded " + this);
 		}
+
+	};
+
+	TraceryNode.prototype.clearEscapeChars = function() {
+
+		this.finishedText = this.finishedText.replace(/\\\\/g, "DOUBLEBACKSLASH").replace(/\\/g, "").replace(/DOUBLEBACKSLASH/g, "\\");
 	};
 
 	// An action that occurs when a node is expanded
@@ -199,10 +206,12 @@ var tracery = function() {
 	// 1 Pop: [key:POP]
 	// 2 function: [functionName(param0,param1)] (TODO!)
 	function NodeAction(node, raw) {
-		if (!node)
-			console.warn("No node for NodeAction");
-		if (!raw)
-			console.warn("No raw commands for NodeAction");
+		/*
+		 if (!node)
+		 console.warn("No node for NodeAction");
+		 if (!raw)
+		 console.warn("No raw commands for NodeAction");
+		 */
 
 		this.node = node;
 
@@ -248,7 +257,9 @@ var tracery = function() {
 					type : -1,
 					raw : this.ruleSections[i]
 				});
+
 				n.expand();
+
 				this.finishedRules.push(n.finishedText);
 			}
 
@@ -299,7 +310,7 @@ var tracery = function() {
 		// console.log("Get rule", this.raw);
 		// Is there a conditional?
 		if (this.conditionalRule) {
-			var value = this.grammar.expand(this.conditionalRule);
+			var value = this.grammar.expand(this.conditionalRule, true);
 			// does this value match any of the conditionals?
 			if (this.conditionalValues[value]) {
 				var v = this.conditionalValues[value].selectRule(errors);
@@ -497,18 +508,18 @@ var tracery = function() {
 		return root;
 	};
 
-	Grammar.prototype.expand = function(rule) {
+	Grammar.prototype.expand = function(rule, allowEscapeChars) {
 		var root = this.createRoot(rule);
 		root.expand();
+		if (!allowEscapeChars)
+			root.clearEscapeChars();
+
 		return root;
 	};
 
-	Grammar.prototype.flatten = function(rule, allowEscapes) {
-		var root = this.expand(rule);
-		 
-		if (!allowEscapes) {
-			root.finishedText = root.finishedText.replace(/\\/g, "");
-		}
+	Grammar.prototype.flatten = function(rule, allowEscapeChars) {
+		var root = this.expand(rule, allowEscapeChars);
+
 		return root.finishedText;
 	};
 
@@ -629,7 +640,7 @@ var tracery = function() {
 				var rawSubstring;
 				if (lastEscapedChar !== undefined) {
 					rawSubstring = escapedSubstring + "\\" + rule.substring(lastEscapedChar + 1, end);
-				
+
 				} else {
 					rawSubstring = rule.substring(start, end);
 				}
@@ -640,7 +651,7 @@ var tracery = function() {
 				lastEscapedChar = undefined;
 				escapedSubstring = "";
 			};
-				
+
 			for (var i = 0; i < rule.length; i++) {
 
 				if (!escaped) {
@@ -719,7 +730,6 @@ var tracery = function() {
 			return sections;
 		},
 	};
-	
 
 	// Externalize
 	tracery.TraceryNode = TraceryNode;
@@ -729,6 +739,5 @@ var tracery = function() {
 	tracery.RuleSet = RuleSet;
 	return tracery;
 }();
-
 
 //module.exports = tracery; 

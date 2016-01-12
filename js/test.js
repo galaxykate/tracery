@@ -7,6 +7,9 @@ function runTests() {
 	console.log("Run tests");
 	// Test all test cases
 	var grammar = tracery.createGrammar({
+
+		deepHash : ["\\#00FF00", "\\#FF00FF"],
+		deeperHash : ["#deepHash#"],
 		animal : ["bear", "cat", "dog", "fox", "giraffe", "hippopotamus"],
 		mood : ["quiet", "morose", "gleeful", "happy", "bemused", "clever", "jovial", "vexatious", "curious", "anxious", "obtuse", "serene", "demure"],
 
@@ -40,6 +43,14 @@ function runTests() {
 		},
 
 		// Escape chars
+		escapeCharacter : {
+			src : "\\#escape hash\\# and escape slash\\\\"
+		},
+
+		escapeDeep : {
+			src : "#deepHash# [myColor:#deeperHash#] #myColor#",
+		},
+
 		escapeQuotes : {
 			src : "\"test\" and \'test\'"
 		},
@@ -131,6 +142,7 @@ function runTests() {
 		console.log("Run test " + testNames[i]);
 		var test = tests[testNames[i]];
 		var root = grammar.expand(test.src);
+		console.log(root);
 		test.resultRoot = root;
 		test.resultGen = root.finishedText;
 
