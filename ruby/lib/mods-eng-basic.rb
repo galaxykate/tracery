@@ -2,26 +2,32 @@ module Modifiers
     def self.isVowel(c)
         return ['a', 'e', 'i', 'o', 'u'].member?(c.downcase)
     end
+
+    def self.pluralize(s)
+        case(s[-1])
+        when 's' then
+            return s + "es"
+        when 'h' then
+            return s + "es"
+        when 'x' then
+            return s + "es"
+        when 'y' then
+            if(!isVowel(s[-2])) then
+                return s[0...-1] + "ies"
+            else
+                return s + "s"
+            end
+        else
+            return s + "s"
+        end
+    end
     
     def self.baseEngModifiers
         {
-            "varyTune" => lambda do |s|
-                r = Random.new
-                d = (r.rand * 5).ceil
-                s2 = s.each_char.collect do |chr|
-                    c = chr.ord - 97
-                    v2 = 0
-                    if(c >= 0 && c < 26) then
-                        v2 = (c + d) % 13 + 97
-                    else
-                        v2 = c + 97
-                    end
-                    
-                    v2.chr
-                end
-                return s2.join
+            "replace" => lambda do |s, params|
+                return s.gsub(/#{Regexp.quote(params[0])}/, params[1])
             end,
-            
+
             "capitalizeAll" => lambda do |s|
                 return s.gsub(/\w+/) {|word| word.capitalize}
             end,
@@ -44,24 +50,17 @@ module Modifiers
                 
                 return "a #{s}"
             end,
+
+            "firstS" => lambda do |s|
+                words = s.split(" ")
+                if(words.length > 0) then
+                    words[0] = pluralize words[0]
+                end
+                return words.join " "
+            end,
             
             "s" => lambda do |s|
-                case(s[-1])
-                    when 's' then
-                        return s + "es"
-                    when 'h' then
-                        return s + "es"
-                    when 'x' then
-                        return s + "es"
-                    when 'y' then
-                        if(!isVowel(s[-2])) then
-                            return s[0...-1] + "ies"
-                        else
-                            return s + "s"
-                        end
-                    else
-                        return s + "s"
-                end
+                return pluralize(s)
             end,
             
             "ed" => lambda do |s|
