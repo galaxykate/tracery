@@ -24,19 +24,19 @@ module Modifiers
     
     def self.baseEngModifiers
         {
-            "replace" => lambda do |s, params|
-                return s.gsub(/#{Regexp.quote(params[0])}/, params[1])
+            "replace" => lambda do |s, parameters|
+                return s.gsub(/#{Regexp.quote(parameters[0])}/, parameters[1])
             end,
 
-            "capitalizeAll" => lambda do |s|
+            "capitalizeAll" => lambda do |s, parameters|
                 return s.gsub(/\w+/) {|word| word.capitalize}
             end,
             
-            "capitalize" => lambda do |s|
+            "capitalize" => lambda do |s, parameters|
                 return s.capitalize
             end,
             
-            "a" => lambda do |s|
+            "a" => lambda do |s, parameters|
                 if(s.length > 0) then
                     if(s =~ /^u((\wi)|(\W))/) then
                         #catches "university" and "u-boat"
@@ -51,7 +51,7 @@ module Modifiers
                 return "a #{s}"
             end,
 
-            "firstS" => lambda do |s|
+            "firstS" => lambda do |s, parameters|
                 words = s.split(" ")
                 if(words.length > 0) then
                     words[0] = pluralize words[0]
@@ -59,11 +59,11 @@ module Modifiers
                 return words.join " "
             end,
             
-            "s" => lambda do |s|
+            "s" => lambda do |s, parameters|
                 return pluralize(s)
             end,
             
-            "ed" => lambda do |s|
+            "ed" => lambda do |s, parameters|
                 case(s[-1])
                     when 's' then
                         return s + "ed"
