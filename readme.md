@@ -45,6 +45,19 @@ Get the root node from a rule *not* fully expanded (this allows for animating th
                    refreshGrammarOutput();
                 }, 40);
     
+
+### Making Tracery deterministic
+
+By default, Tracery uses Math.random() to generate random numbers. If you need Tracery to be deterministic, you can make it use your own random number generator using:
+
+    tracery.setRng(myRng);
+
+where myRng is a function that, [like Math.random()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random), returns a floating-point, pseudo-random number in the range [0, 1).
+
+By using a local random number generator that takes a seed and controlling this seed, you can make Tracery's behavior completely deterministic.
+
+(Alternatively, you could use something like [seedrandom](https://github.com/davidbau/seedrandom) to make Math.random() seedable, but then you need to be very careful about who uses Math.random() - it effectively becomes a global variable that anyone can modify. Using a local random number generator - perhaps from seedrandom - instead of replacing Math.random() avoids this problem.)
+
 ## Library Concepts
 ### Grammar
 
@@ -113,4 +126,7 @@ Some attributes of this object can be:
 * distribution: a new distribution to override the default)
 * conditionRule: a rule to expand
 * conditionValue: a value to match the expansion against
-* conditionSuccess: a ruleset to use if expanding *conditionRule* returns *conditionValue*, otherwise use *baseRules*  These can be nested, so it is possible to make a ruleset 
+* conditionSuccess: a ruleset to use if expanding *conditionRule* returns *conditionValue*, otherwise use *baseRules*  
+
+
+These can be nested, so it is possible to make a ruleset 
