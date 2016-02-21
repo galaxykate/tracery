@@ -2,7 +2,7 @@ $:.unshift(File.dirname(__FILE__) + '/../lib/')
 
 require 'test/unit'
 require 'tracery'
-require 'pp'
+require "mods-eng-basic"
 
 class TraceryTest < Test::Unit::TestCase
     include Tracery
@@ -27,6 +27,7 @@ class TraceryTest < Test::Unit::TestCase
             "setOccupation" => ["[occupation:baker][didStuff:baked bread,decorated cupcakes,folded dough,made croissants,iced a cake]", "[occupation:warrior][didStuff:fought #monster.a#,saved a village from #monster.a#,battled #monster.a#,defeated #monster.a#]"],
             "origin" => ["#[#setPronouns#][#setOccupation#][hero:#name#]story#"]
         })
+        @grammar.addModifiers(Modifiers.baseEngModifiers)
     end
 
     def test_main_expansion_tests
@@ -89,49 +90,65 @@ class TraceryTest < Test::Unit::TestCase
             src: "#[pet:#animal#]nonrecursiveStory# post:#pet#"
         },
 
-        testComplexGrammar: {
-            src: "#origin#"
-        },
-
-        missingModifier: {
-            src: "#animal.foo#"
-        },
+        #testComplexGrammar: {
+        #    src: "#origin#"
+        #},
 
         modifierWithParams: {
             src: "[pet:#animal#]#nonrecursiveStory# -> #nonrecursiveStory.replace(beach,mall)#"
         },
 
-        recursivePush: {
-            src: "[pet:#animal#]#recursiveStory#"
+        #recursivePush: {
+        #    src: "[pet:#animal#]#recursiveStory#"
+        #},
+
+        missingModifier: {
+            src: "#animal.foo#",
+            error: true
         },
 
         unmatchedHash: {
-            src: "#unmatched"
+            src: "#unmatched",
+            error: true
         },
         missingSymbol: {
-            src: "#unicorns#"
+            src: "#unicorns#",
+            error: true
         },
         missingRightBracket: {
-            src: "[pet:unicorn"
+            src: "[pet:unicorn",
+            error: true
         },
         missingLeftBracket: {
-            src: "pet:unicorn]"
+            src: "pet:unicorn]",
+            error: true
         },
         justALotOfBrackets: {
-            src: "[][]][][][[[]]][[]]]]"
+            src: "[][]][][][[[]]][[]]]]",
+            error: true
         },
         bracketTagMelange: {
-            src: "[][#]][][##][[[##]]][#[]]]]"
+            src: "[][#]][][##][[[##]]][#[]]]]",
+            error: true
         }
         }
 
         puts
         tests.each { |k,v|
+            puts "#{k}: "
             @grammar.clearState
-            root = @grammar.expand(v[:src])
-            pp root.errors
-            puts "#{k}: #{root.finishedText}"
-            refute root.finishedText.empty?
+            source = v[:src]
+            is_error = v[:error].nil? ? false : v[:error]
+            root = @grammar.expand(source)
+            all_errors = root.allErrors
+            puts "\t#{root.finishedText}"
+            if(is_error) then
+                puts "\tErrors: #{all_errors}"
+                refute(all_errors.empty?)
+            else
+                assert(all_errors.empty?)
+                refute root.finishedText.empty?
+            end
         }
     end
 

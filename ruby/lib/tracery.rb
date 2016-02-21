@@ -29,12 +29,15 @@ module Tracery
             end
         end
         
-        raise "no main section in #{tagContents}" if(symbolSection.nil?)
-        
-        components = symbolSection.split(".");
-        parsed[:symbol] = components.first
-        parsed[:modifiers] = components.drop(1)
-        
+        if(symbolSection.nil?) then
+            # raise "no main section in #{tagContents}"
+        else
+            
+            components = symbolSection.split(".");
+            parsed[:symbol] = components.first
+            parsed[:modifiers] = components.drop(1)
+        end
+
         return parsed
     end
     
@@ -162,6 +165,7 @@ class TraceryNode
 
     def initialize(parent, childIndex, settings)
         @errors = []
+        @children = []
 
         if(settings[:raw].nil?) then
             @errors << "Empty input for node"
@@ -194,7 +198,6 @@ class TraceryNode
     end
     
     def expandChildren(childRule, preventRecursion)
-        @children = []
         @finishedText = ""
         @childRule = childRule
         
@@ -224,7 +227,7 @@ class TraceryNode
             @errors << "Already expanded #{self}"
             return
         end
-        
+
         @isExpanded = true
         #this is no longer used
         @expansionErrors = []
@@ -310,6 +313,11 @@ class TraceryNode
         end
     end
 
+    def allErrors
+        child_errors = @children.inject([]){|all, child| all.concat(child.allErrors)}
+        return child_errors.concat(@errors) 
+    end
+
     def clearEscapeCharacters
         @finishedText = @finishedText.gsub(/\\\\/, "DOUBLEBACKSLASH").gsub(/\\/, "").gsub(/DOUBLEBACKSLASH/, "\\")
     end
@@ -334,7 +342,7 @@ class NodeAction
             @type = 2
         else
             # Colon? It's either a push or a pop
-            @rule = sections[1]
+            @rule = sections[1] || ""
             if(@rule == "POP")
                 @type = 1;
             else
@@ -360,7 +368,7 @@ class NodeAction
                 
                 # TODO: escape commas properly
                 grammar.pushRules(@target, finishedRules, self)
-                #puts("Push rules: #{@target} #{@ruleText}")
+                # puts("Push rules: #{@target} #{@ruleText}")
             when 1 then
                 grammar.popRules(@target);
             when 2 then
@@ -614,11 +622,11 @@ class TraceryTests
         
         require "./mods-eng-basic"
         testGrammar.addModifiers(Modifiers.baseEngModifiers);
-        puts testGrammar.flatten("#story#", true)
+        puts testGrammar.flatten("#story#")
         
         grammar = createGrammar({"origin" => "foo"});
         grammar.addModifiers(Modifiers.baseEngModifiers);
-        puts grammar.flatten("#origin#", true)
+        puts grammar.flatten("#origin#")
     end
 end
 
