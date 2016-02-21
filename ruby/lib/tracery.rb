@@ -25,7 +25,7 @@ module Tracery
                     raise "multiple main sections in #{tagContents}"
                 end
             else
-                parsed.preactions.push(section)
+                parsed[:preactions].push(section)
             end
         end
         
@@ -123,7 +123,7 @@ module Tracery
                         end
                     when '\\' then
                         escaped = true;
-                        escapedSubstring = escapedSubstring + rule[start..i];
+                        escapedSubstring = escapedSubstring + rule[start...i];
                         start = i + 1;
                         lastEscapedChar = i;
                 end
@@ -186,7 +186,7 @@ class TraceryNode
         @type = settings[:type]
         @isExpanded = false
         
-        puts "No grammar specified for this node #{self}" if (@grammar.nil?)
+        @errors << "No grammar specified for this node #{self}" if (@grammar.nil?)
     end
     
     def to_s
@@ -215,14 +215,13 @@ class TraceryNode
         else
             # In normal operation, this shouldn't ever happen
             @errors << "No child rule provided, can't expand children"
-            puts "No child rule provided, can't expand children"
         end
     end
     
     # Expand this rule (possibly creating children)
     def expand(preventRecursion = false)
         if(@isExpanded) then
-            puts "Already expanded #{self}"
+            @errors << "Already expanded #{self}"
             return
         end
         
@@ -253,7 +252,7 @@ class TraceryNode
 
                 # Create all the preactions from the raw syntax
                 @preactions = parsed[:preactions].map{|preaction|
-                    NodeAction.new(self, preaction.raw)
+                    NodeAction.new(self, preaction[:raw])
                 }
 
                 # @postactions = parsed[:preactions].map{|postaction|
@@ -293,7 +292,7 @@ class TraceryNode
                     # Missing modifier?
                     if(mod.nil?)
                         @errors << "Missing modifier #{modName}"
-                        @finishedText += "((.#{modifier}))"
+                        @finishedText += "((.#{modName}))"
                     else
                         @finishedText = mod.call(@finishedText, modParams)
                     end
@@ -361,7 +360,7 @@ class NodeAction
                 
                 # TODO: escape commas properly
                 grammar.pushRules(@target, finishedRules, self)
-                puts("Push rules: #{@target} #{@ruleText}")
+                #puts("Push rules: #{@target} #{@ruleText}")
             when 1 then
                 grammar.popRules(@target);
             when 2 then
@@ -511,7 +510,7 @@ class Grammar
     end
     
     def clearState
-        keys.each{|key| key.clearState} # TODO_ check for nil keys 
+        @symbols.each{|k,v| v.clearState} # TODO_ check for nil keys
     end
     
     def addModifiers(mods)
@@ -537,14 +536,14 @@ class Grammar
                 })
     end
     
-    def expand(rule, allowEscapeChars)
+    def expand(rule, allowEscapeChars = false)
         createRoot(rule)
         @root.expand
         @root.clearEscapeCharacters if(!allowEscapeChars)
         return @root
     end
     
-    def flatten(rule, allowEscapeChars)
+    def flatten(rule, allowEscapeChars = false)
         return expand(rule, allowEscapeChars).finishedText
     end
     
