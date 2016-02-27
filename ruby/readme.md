@@ -4,7 +4,7 @@
 
 ## Basic usage
 
-Please refer to the Tracery readme for information about how to build grammars.
+Please refer to the [Tracery readme](https://github.com/galaxykate/tracery) for information about how to build grammars.
 
 Using the ruby port is very similar to the Javascript version. First, install the tracery gem: `gem install tracery`.
 
