@@ -59,10 +59,10 @@ module Tracery
             rawSubstring = rule[start...finish]
         end
         
-        results[:sections].push({
+        results[:sections] << {
                 type: type,
                 raw: rawSubstring
-            })
+            }
     end
     
     def parse(rule)
@@ -141,9 +141,9 @@ module Tracery
             escapedSubstring = ""
         end
         
-        errors.push("Unclosed tag") if inTag
-        errors.push("Too many [") if depth > 0
-        errors.push("Too many ]") if depth < 0
+        errors << ("Unclosed tag") if inTag
+        errors << ("Too many [") if depth > 0
+        errors << ("Too many ]") if depth < 0
 
         # Strip out empty plaintext sections
         results[:sections].select! {|section| 
@@ -510,7 +510,7 @@ class TracerySymbol
 end
 
 class Grammar
-    attr_accessor :distribution, :root, :modifiers
+    attr_accessor :distribution, :modifiers
 
     def initialize(raw) #, settings
         @modifiers = {}
@@ -538,17 +538,18 @@ class Grammar
     
     def createRoot(rule)
         # Create a node and subnodes
-        @root = TraceryNode.new(self, 0, {
+        root = TraceryNode.new(self, 0, {
                     type: -1,
                     raw: rule
                 })
+        return root
     end
     
     def expand(rule, allowEscapeChars = false)
-        createRoot(rule)
-        @root.expand
-        @root.clearEscapeCharacters if(!allowEscapeChars)
-        return @root
+        root = createRoot(rule)
+        root.expand
+        root.clearEscapeCharacters if(!allowEscapeChars)
+        return root
     end
     
     def flatten(rule, allowEscapeChars = false)

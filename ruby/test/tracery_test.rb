@@ -15,7 +15,7 @@ class TraceryTest < Test::Unit::TestCase
 
             "nonrecursiveStory" => ["The #pet# went to the beach."],
             # story : ["#recursiveStory#", "#recursiveStory#", "#nonrecursiveStory#"],
-            "recursiveStory" => ["The #pet# opened a book about[pet:#mood# #animal#] #pet.a#. #story#[pet:POP] The #pet# closed the book."],
+            "recursiveStory" => ["The #pet# opened a book about[pet:#mood# #animal#] #pet.a#. #[#setPronouns#]story#[pet:POP] The #pet# closed the book."],
 
             "svgColor" => ["rgb(120,180,120)", "rgb(240,140,40)", "rgb(150,45,55)", "rgb(150,145,125)", "rgb(220,215,195)", "rgb(120,250,190)"],
             "svgStyle" => ['style="fill:#svgColor#;stroke-width:3;stroke:#svgColor#"'],
@@ -90,17 +90,17 @@ class TraceryTest < Test::Unit::TestCase
             src: "#[pet:#animal#]nonrecursiveStory# post:#pet#"
         },
 
-        #testComplexGrammar: {
-        #    src: "#origin#"
-        #},
+        testComplexGrammar: {
+           src: "#origin#"
+        },
 
         modifierWithParams: {
             src: "[pet:#animal#]#nonrecursiveStory# -> #nonrecursiveStory.replace(beach,mall)#"
         },
 
-        #recursivePush: {
-        #    src: "[pet:#animal#]#recursiveStory#"
-        #},
+        recursivePush: {
+           src: "[pet:#animal#]#recursiveStory#"
+        },
 
         missingModifier: {
             src: "#animal.foo#",
@@ -144,10 +144,10 @@ class TraceryTest < Test::Unit::TestCase
             puts "\t#{root.finishedText}"
             if(is_error) then
                 puts "\tErrors: #{all_errors}"
-                refute(all_errors.empty?)
+                refute(all_errors.empty?, "Expected errors.")
             else
-                assert(all_errors.empty?)
-                refute root.finishedText.empty?
+                assert(all_errors.empty?, "Expected no errors.")
+                refute(root.finishedText.empty?, "Expected non-empty output.")
             end
         }
     end
