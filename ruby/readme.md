@@ -1,13 +1,16 @@
 # Tracery for Ruby
 
+[![Gem Version](https://badge.fury.io/rb/tracery.svg)](https://badge.fury.io/rb/tracery)
+
 ## Basic usage
 
 Please refer to the Tracery readme for information about how to build grammars.
 
-Using the ruby port is very similar to the Javascript version:
+Using the ruby port is very similar to the Javascript version. First, install the tracery gem: `gem install tracery`.
+
 ```ruby
-require './tracery'
-require './mods-eng-basic'
+require 'tracery'
+require 'mods-eng-basic'
 include Tracery
 grammar = createGrammar({"origin" => "foo"});
 grammar.addModifiers(Modifiers.baseEngModifiers);
@@ -22,7 +25,4 @@ puts grammar.flatten("#origin#")
 
 ## TODO
 
-* Manually test to ensure all features are working
-* Robust test suite (similar to the js demo website)
-* Ruby gem (versioning, etc.)
 * Create new modifiers based on Rails inflection library 
