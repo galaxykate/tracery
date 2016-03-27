@@ -3,6 +3,7 @@
  * Test cases
  */
 
+
 function runTests() {
 	console.log("Run tests");
 	// Test all test cases
