@@ -30,12 +30,16 @@ function makeGrammar() {
 
 	var ruleGrammar = tracery.createGrammar({
 		key : keys,
+		
 		modifier : ["capitalize", "s", "ed"],
-		plaintext : ["foo", "bar", "zum"],
+		
+		character: "aaabbcccdddddeeeeefffghhhiijklmmnooopqrrrrsssssttttuuvwxyz....,,,!!??".split(""),
+		plaintext: ["#character##plaintext#", "#character#"],
+		
 		tagContents : ["#key#", "#key#.#modifier#"],
-		section : ["#plaintext#", "#plaintext#", "#plaintext#", "#tagContents.inTags#"],
+		section : ["#plaintext#", "#plaintext#", "#tagContents.inTags#"],
 		rule : ["#section#", "#section##section#", "#section##section##section#"],
-		multiRuleSet : ["#rule.inQuotes#,#rule.inQuotes#,#rule.inQuotes#,#rule.inQuotes#"],
+		multiRuleSet : ["#rule.inQuotes#", "#multiRuleSet#,#rule.inQuotes#", "#multiRuleSet#,#rule.inQuotes#"],
 		ruleset : ["#rule.inQuotes#", "#multiRuleSet.inBrackets#", "#multiRuleSet.inBrackets#"],
 	});
 
