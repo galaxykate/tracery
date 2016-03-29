@@ -32,7 +32,10 @@ function runTests() {
 
 	grammar.addModifiers(baseEngModifiers);
 
-	Math.seedrandom(Math.random());
+	// Use fixed number instead of random.
+	// Math.seedrandom(Math.random());
+	tracery.setRng(function() { return 0; });
+
 	// Create all the test cases
 	var tests = {
 
