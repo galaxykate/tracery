@@ -1,7 +1,7 @@
 /**
 * @author Kate Compton
 */
-     
+
 var tracery = {
     utilities : {}
 };
@@ -557,6 +557,15 @@ var tracery = {
 
         capitalize : function(s) {
             return s.charAt(0).toUpperCase() + s.slice(1);
+
+        },
+
+        uppercase : function(s) {
+            return s.toUpperCase();
+        },
+
+        lowercase : function(s) {
+            return s.toLowerCase();
 
         },
 
@@ -1220,4 +1229,4 @@ var tracery = {
 
     };
 
-})(); 
+})();

@@ -82,7 +82,8 @@ story : ["This is a story about #mainCharacter#"]
 ```
 
 Expansion symbols can have modifiers.  Modifiers can change something about the string expansion of that symbol.
- `#animal.capitalize#` or `#animal.a#` or `#animal.s#`
+ `#animal.capitalize#` `#animal.capitalizeAll#` or `#animal.a#` or `#animal.s#` or `#animal.uppercase#` or `#animal.lowercase#`
+
 ```
 name: ["Brittany"],
 animal: ["wombat"],

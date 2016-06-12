@@ -42,6 +42,15 @@ define([], function() {'use strict';
 
         },
 
+        uppercase : function(s) {
+            return s.toUpperCase();
+        },
+
+        lowercase : function(s) {
+            return s.toLowerCase();
+
+        },
+
         inQuotes : function(s) {
             return '"' + s + '"';
         },
