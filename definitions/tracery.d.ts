@@ -12,12 +12,12 @@ declare module tracery{
     export class Grammar{
         clearState():void;
         addModifiers(mods:{}):void;
-        expand(rule:string, allowEscapeChars:boolean):TraceryNode;
-        flatten(rule:string, allowEscapeChars:boolean):string;
+        expand(rule:string, allowEscapeChars?:boolean):TraceryNode;
+        flatten(rule:string, allowEscapeChars?:boolean):string;
         toJSON():string;
         toHTML():string;
     }
 
-    export function createGrammar(raw:{}):Grammar;
+    export function createGrammar(raw?:{}):Grammar;
     export function setRng(newRng:()=>number):void;
 }
