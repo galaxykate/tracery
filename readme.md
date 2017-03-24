@@ -1,90 +1,132 @@
-# Welcome to Tracery!
+# Tracery
 
-## A text-expansion library
+## About
+Tracery was developed by Kate Compton, beginning March 2013 as a class assignment.
+This is version 0.7
+(This is the first numbered version of Tracery, chosen arbitrarily. All basic syntax is stable, but some advanced features like nested rules, if-statements, and modifiers with parameters are still in flux)
 
-There are many new examples of Tracery [in use](http://www.crystalcodepalace.com/tracery.html "Examples")
-I also have an exciting new *interactive* [tutorial](http://www.crystalcodepalace.com/traceryTut.html "Tutorial")
 
-I strongly recommend using the [minified library](https://github.com/galaxykate/tracery/blob/master/js/tracery.min.js "Minified")
+## Basic usage
 
-### Write grammar objects, get generative stories
+### Create a grammar
 
-#### An example grammar
-```
-{
-	"name": ["Arjun","Yuuma","Darcy","Mia","Chiaki","Izzi","Azra","Lina"],
-	"animal": ["unicorn","raven","sparrow","scorpion","coyote","eagle","owl","lizard","zebra","duck","kitten"],
-	"mood": ["vexed","indignant","impassioned","wistful","astute","courteous"],
-	"story": ["#hero# traveled with her pet #heroPet#.  #hero# was never #mood#, for the #heroPet# was always too #mood#."],
-	"origin": ["#[hero:#name#][heroPet:#animal#]story#"]
-}
-```
+Create an empty grammar:
 
-#### Output of that grammar.
-Of course, many grammars are more complex!
-```
-Lina traveled with her pet duck. Lina was never indignant, for the duck was always too indignant.
-Yuuma traveled with her pet unicorn. Yuuma was never wistful, for the unicorn was always too indignant.
-Azra traveled with her pet coyote. Azra was never wistful, for the coyote was always too impassioned.
-Yuuma traveled with her pet owl. Yuuma was never wistful, for the owl was always too courteous.
-Azra traveled with her pet zebra. Azra was never impassioned, for the zebra was always too astute.
-```
+    grammar = tracery.createGrammar();
 
-### How to use Tracery as a broswer library
+Create a grammar from a Tracery-formatted object:
+	
+    grammar = tracery.createGrammar({origin:"foo"});
 
-Import tracery
-`<script defer src="js/libs/tracery.js"></script>`
+Add modifiers to the grammar (import "mods-eng-basic.js" for basic English modifiers, or write your own)
 
-Use the `tracery` object to create a `Grammar` object from a source object (specification below)
-`tracery.createGrammar(spellbook);`
+    grammar.addModifiers(baseEngModifiers);
+    
+### Expand rules 
+Get the fully-expanded string from a rule
 
-The grammar can create `Trace` objects.  A `Trace` is one possible expansion of a grammar.
-`var trace = app.grammar.createTrace();`
+    grammar.flatten("#origin#");
 
-The trace can be expanded into a tree structure, step by step, or all at once.
-`trace.expand();`
-Once expanded, the trace can create a 'flattened' version of itself: a single string of text.
-var myString = trace.flatten();
+Get the fully-expanded node from a rule, this will return a root node containing a full expanded tree with many potentially interesting properties, including "finishedText" for each node.
 
-Or the grammar can generate a trace and flatten it, all in one step
-`var myTitle = app.grammar.createFlattened()`
+    grammar.expand("#origin#");
+    
+Get the root node from a rule *not* fully expanded (this allows for animating the expansion of the tree) TODO, this is still buggy and does not correctly set the "finishedText"
 
-Traces will start their expansions with the 'origin' symbol by default, but you can also create one from a rule (see "Rule Syntax" below), or from a symbol
-`var trace = app.grammar.createTrace("A story about #character#");`
-`var trace = app.grammar.createTraceFromSymbol("bookTitle");`
+    grammar.expand("#origin#", true);
+    
+    // animate the expansion over time
+    var stepTimer = setInterval(function() {
+                   app.stepIterator.node.expand(true);
+                   var action = app.stepIterator.next();
+                   if (!action)
+                        clearInterval(stepTimer);
+                   refreshVisualization();
+                   refreshGrammarOutput();
+                }, 40);
+    
 
-Many traces can be working on a single grammar at the same time, without getting in each others way.
+### Making Tracery deterministic
 
-### How to use Tracery as a Node.js library
+By default, Tracery uses Math.random() to generate random numbers. If you need Tracery to be deterministic, you can make it use your own random number generator using:
 
-Use this Node library created by George Buckenham: https://github.com/v21/tracery
+    tracery.setRng(myRng);
 
-## Input
+where myRng is a function that, [like Math.random()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random), returns a floating-point, pseudo-random number in the range [0, 1).
 
-### Syntax overview
-####  Grammar
-A grammar is a key-value storage system for rules.
+By using a local random number generator that takes a seed and controlling this seed, you can make Tracery's behavior completely deterministic.
 
-####  Rule syntax
-Each symbol should be followed by an array of text strings representing rules
-```
-  "emotion" : ["happy", "sad", "proud"],
-```
-or, if you're writing a long string of single words, you can use 'split'
-```
-  "emotion" : "happy sad reflective morose proud".split(" "),
-```
+(Alternatively, you could use something like [seedrandom](https://github.com/davidbau/seedrandom) to make Math.random() seedable, but then you need to be very careful about who uses Math.random() - it effectively becomes a global variable that anyone can modify. Using a local random number generator - perhaps from seedrandom - instead of replacing Math.random() avoids this problem.)
 
-Rules can also contain expansion symbols, words surrounded by #'s:
-```
-mainCharacter: ["Brittany the Wombat"],
-story : ["This is a story about #mainCharacter#"]
-```
+## Library Concepts
+### Grammar
 
-Expansion symbols can have modifiers.  Modifiers can change something about the string expansion of that symbol.
- `#animal.capitalize#` or `#animal.a#` or `#animal.s#`
-```
-name: ["Brittany"],
-animal: ["wombat"],
-story : ["This is a story about #name# the #animal.capitalize#"]
-```
+A Grammar is
+
+* *a dictionary of symbols*: a key-value object matching keys (the names of symbols) to expansion rules
+* optional metadata such as a title, edit data, and author
+* optional connectivity graphs describing how symbols call each other
+
+*clearState*: symbols and rulesets have state (the stack, and possible ruleset state recording recently called rules).  This function clears any state, returning the dictionary to its original state;
+
+Grammars are usually created by feeding in a raw JSON grammar, which is then parsed into symbols and rules.  You can also build your own Grammar objects from scratch, without using this utility function, and can always edit the grammar after creating it.
+
+### Symbol
+A symbol is a **key** (usually a short human-readable string) and a set of expansion rules
+* the key
+* rulesetStack: the stack of expansion **rulesets** for this symbol.  This stack records the previous, inactive rulesets, and the current one.
+* optional connectivity data, such as average depth and average expansion length
+
+Putting a **key** in hashtags, in a Tracery syntax object, will create a expansion node for that symbol within the text.
+
+Each top-level key-value pair in the raw JSON object creates a **symbol**.  The symbol's *key* is set from the key, and the *value* determines the **ruleset**.
+
+### Modifier
+A function that takes a string (and optionally parameters) and returns a string.  A set of these is included in mods-eng-basic.js.  Modifiers are applied, in order, after a tag is fully expanded.
+
+To apply a modifier, add its name after a period, after the tag's main symbol:
+	#animal.capitalize#
+	#booktitle.capitalizeAll#
+	Hundreds of #animal.s#
+
+Modifiers can have parameters, too! (soon they will can have parameter that contain tags, which will be expanded when applying the modifier, but not yet)
+	#story.replace(he,she).replace(him,her).replace(his,hers)#
+
+### Action
+An action that occurs when its node is expanded.  Built-in actions are 
+* Generating some rules "[key:#rule#]" and pushing them to the "key" symbol's rule stack.  If that symbol does not exist, it creates it.
+* Popping rules off of a rule stack, "[key:POP]"
+* Other functions
+
+TODO: figure out syntax and implementation for generating *arrays* of rules, or other complex rulesets to push onto symbols' rulestacks
+
+TODO: figure out syntax and storage for calling other functions, especially for async APIs.
+
+### Ruleset
+A ruleset is an object that defines a *getRule* function.  Calling this function may change the internal state of the ruleset, such as annotating which rules were most recently returned, or drawing and removing a rule from a shuffled list of available rules.
+
+#### Basic ruleset
+A basic ruleset is just an array of options.
+
+They can be created by raw JSON by having an *array* or a *string* as the value, like this:
+"someKey":["rule0", "rule1", "some#complicated#rule"]
+If there is only one rule, it is acceptable short hand to leave off the array, but this only works with Strings.
+"someKey":"just one rule"
+
+These use the default distribution of the Grammar that owns them, which itself defaults to regular stateless pseudo-randomness.
+
+#### Rulesets with conditions, distributions, or ranked fallbacks
+### **this feature is under development, coming soon
+These rulesets are created when the raw JSON has an *object* rather than an *array* as the value.
+
+Some attributes of this object can be:
+
+* baseRules: a single ruleset,
+* ruleRanking: an array of rulesets, call *getRule* on each in order until one returns a value, if none do, return *baseRules*.*getRule*,
+* distribution: a new distribution to override the default)
+* conditionRule: a rule to expand
+* conditionValue: a value to match the expansion against
+* conditionSuccess: a ruleset to use if expanding *conditionRule* returns *conditionValue*, otherwise use *baseRules*  
+
+
+These can be nested, so it is possible to make a ruleset 
