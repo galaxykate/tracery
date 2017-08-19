@@ -3,8 +3,7 @@
  */
 
 function isVowel(c) {
-	var c2 = c.toLowerCase();
-	return (c2 === 'a') || (c2 === 'e') || (c2 === 'i') || (c2 === 'o') || (c2 === 'u');
+	return (c === 'a') || (c === 'e') || (c === 'i') || (c === 'o') || (c === 'u') || (c === 'A') || (c === 'E') || (c === 'I') || (c === 'O') || (c === 'U');
 };
 
 function isAlphaNum(c) {
