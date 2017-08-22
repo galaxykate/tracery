@@ -1,0 +1,123 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "tracery-grammar@2.7.3",
+        "scope": null,
+        "escapedName": "tracery-grammar",
+        "name": "tracery-grammar",
+        "rawSpec": "2.7.3",
+        "spec": "2.7.3",
+        "type": "version"
+      },
+      "D:\\Development\\git\\mtgnewsbot"
+    ]
+  ],
+  "_from": "tracery-grammar@2.7.3",
+  "_id": "tracery-grammar@2.7.3",
+  "_inCache": true,
+  "_location": "/tracery-grammar",
+  "_nodeVersion": "5.5.0",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/tracery-grammar-2.7.3.tgz_1478883499208_0.8257522718049586"
+  },
+  "_npmUser": {
+    "name": "v21",
+    "email": "vtwentyone@gmail.com"
+  },
+  "_npmVersion": "3.3.12",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "tracery-grammar@2.7.3",
+    "scope": null,
+    "escapedName": "tracery-grammar",
+    "name": "tracery-grammar",
+    "rawSpec": "2.7.3",
+    "spec": "2.7.3",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/tracery-grammar/-/tracery-grammar-2.7.3.tgz",
+  "_shasum": "463e05f017fb6891de4baea7d464199b697acbea",
+  "_shrinkwrap": null,
+  "_spec": "tracery-grammar@2.7.3",
+  "_where": "D:\\Development\\git\\mtgnewsbot",
+  "author": {
+    "name": "Kate Compton",
+    "url": "packaged by v21"
+  },
+  "bugs": {
+    "url": "https://github.com/v21/tracery/issues"
+  },
+  "dependencies": {
+    "bluebird": "3.5.0"
+  },
+  "description": "npm package for Kate Compton's tracery",
+  "devDependencies": {
+    "eslint": "4.2.0",
+    "gulp": "3.9.1",
+    "gulp-debug": "3.1.0",
+    "gulp-eslint": "4.0.0",
+    "gulp-util": "3.0.8"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "463e05f017fb6891de4baea7d464199b697acbea",
+    "tarball": "https://registry.npmjs.org/tracery-grammar/-/tracery-grammar-2.7.3.tgz"
+  },
+  "gitHead": "9d8f5af4915b8956942e9163f0f1a7bf0b88a690",
+  "homepage": "https://github.com/v21/tracery#readme",
+  "license": "ISC",
+  "main": "tracery.js",
+  "maintainers": [
+    {
+      "name": "v21",
+      "email": "vtwentyone@gmail.com"
+    }
+  ],
+  "name": "tracery-grammar",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/v21/tracery.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "gulp"
+  },
+  "version": "2.7.3",
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 8
+    },
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "rules": {
+      "no-console": 0,
+      "no-empty": 0,
+      "no-mixed-spaces-and-tabs": 1,
+      "no-unused-expressions": 1,
+      "no-unused-vars": [
+        1,
+        {
+          "vars": "all",
+          "args": "after-used"
+        }
+      ],
+      "no-useless-escape": 0,
+      "strict": 2,
+      "semi": [
+        2,
+        "always"
+      ]
+    }
+  }  
+}
