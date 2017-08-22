@@ -140,7 +140,7 @@ var tracery = function() {
                 this.finishedText = this.raw;
 
                 // Expand (passing the node, this allows tracking of recursion depth)
-                
+
                 // TODO: PROMISIFY  - chain this (selectRule will be promisified)          
                 var selectedRule = this.grammar.selectRule(this.symbol, this, this.errors);
 
@@ -272,6 +272,7 @@ var tracery = function() {
                     raw : this.ruleSections[i]
                 });
 
+                // TODO: PROMISIFY - chain reduce this (expand will be promisified)  
                 n.expand();
 
                 this.finishedRules.push(n.finishedText);
@@ -582,7 +583,7 @@ var tracery = function() {
         // Failover to alternative subgrammars
         for (var i = 0; i < this.subgrammars.length; i++) {
 
-            // TODO: PROMISIFY  - chain this (selectRule will be promisified)
+            // TODO: PROMISIFY  - chain reduce this (selectRule will be promisified)
             if (this.subgrammars[i].symbols[key])
                 return this.subgrammars[i].symbols[key].selectRule();
         }
@@ -1568,6 +1569,7 @@ var tracery = {
 
             if (this.children) {
                 this.childText = "";
+                // TODO: PROMISIFY - chain reduce this (expand be promisified)  
                 for (var i = 0; i < this.children.length; i++) {
                     this.children[i].expand();
                     this.childText += this.children[i].finalText;
@@ -1641,6 +1643,7 @@ var tracery = {
             this.createChildrenFromSections(this.rule.getParsed());
 
             // Do any pre-expansion actions!
+            // TODO: PROMISIFY - chain reduce this (activate will be promisified)            
             for (var i = 0; i < this.preActions.length; i++) {
                 var action = new Action(this, this.preActions[i]);
                 action.activate();
@@ -1650,6 +1653,7 @@ var tracery = {
             if (!this.rule.sections)
                 console.log(this.rule);
 
+            // TODO: PROMISIFY - chain this (expandChildren will be promisified)  
             this.expandChildren();
 
             for (var i = 0; i < this.actions.length; i++) {
