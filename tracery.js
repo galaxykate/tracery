@@ -47,6 +47,8 @@ var tracery = function() {
 
     // Expand the node (with the given child rule)
     //  Make children if the node has any
+
+    // TODO: PROMISIFY (per expand call)
     TraceryNode.prototype.expandChildren = function(childRule, preventRecursion) {
         this.children = [];
         this.finishedText = "";
@@ -95,13 +97,14 @@ var tracery = function() {
             switch(this.type) {
               // Raw rule
               case -1: {
-                  this.expandChildren(this.raw, preventRecursion);
-                  break;
+                // TODO: PROMISIFY  - chain this (expandChildren will be promisified)                
+                this.expandChildren(this.raw, preventRecursion);
+                break;
               }
               // plaintext, do nothing but copy text into finsihed text
               case 0: {
-                  this.finishedText = this.raw;
-                  break;
+                this.finishedText = this.raw;
+                break;
               }
               // Tag
               case 1: {
@@ -137,9 +140,11 @@ var tracery = function() {
                 this.finishedText = this.raw;
 
                 // Expand (passing the node, this allows tracking of recursion depth)
-
+                
+                // TODO: PROMISIFY  - chain this (selectRule will be promisified)          
                 var selectedRule = this.grammar.selectRule(this.symbol, this, this.errors);
 
+                // TODO: PROMISIFY  - chain this (expandChildren will be promisified)
                 this.expandChildren(selectedRule, preventRecursion);
 
                 // Apply modifiers
@@ -252,6 +257,7 @@ var tracery = function() {
         return null;
     };
 
+    // TODO: promisify (per expand call)
     NodeAction.prototype.activate = function() {
         var grammar = this.node.grammar;
         switch(this.type) {
@@ -277,7 +283,8 @@ var tracery = function() {
         case 1:
             grammar.popRules(this.target);
             break;
-        case 2:
+        case 2: 
+            // TODO: PROMISIFY  - chain this (flatten will be promisified)
             grammar.flatten(this.target, true);
             break;
         }
@@ -313,6 +320,7 @@ var tracery = function() {
         }
     }
 
+    // TODO: PROMISIFY (per expand call)
     RuleSet.prototype.selectRule = function(errors) {
         // console.log("Get rule", this.raw);
         // Is there a conditional?
@@ -320,6 +328,7 @@ var tracery = function() {
             let value = this.grammar.expand(this.conditionalRule, true);
             // does this value match any of the conditionals?
             if (this.conditionalValues[value]) {
+                // TODO: PROMISIFY  - chain this (selectRule will be promisified)
                 let v = this.conditionalValues[value].selectRule(errors);
                 if (v !== null && v !== undefined)
                     return v;
@@ -330,6 +339,7 @@ var tracery = function() {
         // Is there a ranked order?
         if (this.ranking) {
             for (let i = 0; i < this.ranking.length; i++) {
+                // TODO: PROMISIFY  - chain this (selectRule will be promisified)              
                 let v = this.ranking.selectRule();
                 if (v !== null && v !== undefined)
                     return v;
@@ -441,6 +451,7 @@ var tracery = function() {
         this.stack.pop();
     };
 
+    // TODO: PROMISIFY (per selectRule call)
     Symbol.prototype.selectRule = function(node, errors) {
         this.uses.push({
             node : node
@@ -450,14 +461,16 @@ var tracery = function() {
             errors.push("The rule stack for '" + this.key + "' is empty, too many pops?");
             return "((" + this.key + "))";
         }
-
+        // TODO: PROMISIFY  - chain this (selectRule will be promisified)
         return this.stack[this.stack.length - 1].selectRule();
     };
 
+    // TODO: PROMISIFY (per selectRule call)
     Symbol.prototype.getActiveRules = function() {
         if (this.stack.length === 0) {
             return null;
         }
+        // TODO: PROMISIFY  - chain this (selectRule will be promisified)        
         return this.stack[this.stack.length - 1].selectRule();
     };
 
@@ -512,6 +525,7 @@ var tracery = function() {
         return root;
     };
 
+    // TODO: PROMISIFY (per expand call)
     Grammar.prototype.expand = function(rule, allowEscapeChars) {
         var root = this.createRoot(rule);
         root.expand();
@@ -521,6 +535,7 @@ var tracery = function() {
         return root;
     };
 
+    // TODO: PROMISIFY (per expand call)
     Grammar.prototype.flatten = function(rule, allowEscapeChars) {
         var root = this.expand(rule, allowEscapeChars);
 
@@ -555,8 +570,10 @@ var tracery = function() {
         this.symbols[key].popRules();
     };
 
+    // TODO: PROMISIFY (per selectRule call)
     Grammar.prototype.selectRule = function(key, node, errors) {
         if (this.symbols[key]) {
+            // TODO: PROMISIFY  - chain this (selectRule will be promisified)          
             var rule = this.symbols[key].selectRule(node, errors);
 
             return rule;
@@ -565,6 +582,7 @@ var tracery = function() {
         // Failover to alternative subgrammars
         for (var i = 0; i < this.subgrammars.length; i++) {
 
+            // TODO: PROMISIFY  - chain this (selectRule will be promisified)
             if (this.subgrammars[i].symbols[key])
                 return this.subgrammars[i].symbols[key].selectRule();
         }
@@ -1321,12 +1339,14 @@ var tracery = {
 
     };
 
+    // TODO: promisify (per activate call)
     Action.prototype.activate = function() {
 
         var node = this.node;
         node.actions.push(this);
 
         // replace any hashtags
+        // TODO: PROMISIFY  - chain this (flatten will be promisified)
         this.amended = this.grammar.flatten(this.raw);
 
         var parsed = parseTag(this.amended);
@@ -1543,6 +1563,7 @@ var tracery = {
             return "???";
         },
 
+        // TODO: PROMISIFY (per expand call)
         expandChildren : function() {
 
             if (this.children) {
@@ -1577,6 +1598,7 @@ var tracery = {
             this.parsedRule = parseRule(rawRule);
         },
 
+        // TODO: PROMISIFY (per expandChildren call)
         expand : function() {
             var root = this;
             this.createChildrenFromSections(this.parsedRule);
@@ -1606,6 +1628,7 @@ var tracery = {
             $.extend(this, parsedTag);
         },
 
+        // TODO: promisify this (per expandChildren call)
         expand : function() {
             if (tracery.outputExpansionTrace)
                 console.log(r.sections);
@@ -1985,6 +2008,8 @@ var tracery = {
 
     //============================================================
     // Expansions
+
+    // TODO: PROMISIFY (per expand call)
     Grammar.prototype.expand = function(raw) {
 
         // Start a new tree
@@ -1995,6 +2020,7 @@ var tracery = {
         return root;
     };
 
+    // TODO: PROMISIFY (per expand call)
     Grammar.prototype.flatten = function(raw) {
 
         // Start a new tree
