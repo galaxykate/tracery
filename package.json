@@ -1,0 +1,57 @@
+{
+  "dependencies": {
+  },
+  "description": "GoodGamery's fork of Kate Compton's tracery",
+  "devDependencies": {
+    "eslint": "4.2.0",
+    "gulp": "3.9.1",
+    "gulp-debug": "3.1.0",
+    "gulp-eslint": "4.0.0",
+    "gulp-util": "3.0.8"
+  },
+  "directories": {},
+ 
+  "license": "ISC",
+  "main": "tracery.js",
+ 
+  "name": "tracery-grammar",
+ 
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/GoodGamery/tracery.git"
+  },
+
+  "scripts": {
+    "watch": "gulp"
+  },
+  "version": "2.7.3",
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 8
+    },
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "rules": {
+      "no-console": 0,
+      "no-empty": 0,
+      "no-mixed-spaces-and-tabs": 1,
+      "no-unused-expressions": 1,
+      "no-unused-vars": [
+        1,
+        {
+          "vars": "all",
+          "args": "after-used"
+        }
+      ],
+      "no-useless-escape": 0,
+      "strict": 2,
+      "semi": [
+        2,
+        "always"
+      ]
+    }
+  }  
+}
