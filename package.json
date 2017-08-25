@@ -54,7 +54,6 @@
     "url": "https://github.com/v21/tracery/issues"
   },
   "dependencies": {
-    "bluebird": "3.5.0"
   },
   "description": "npm package for Kate Compton's tracery",
   "devDependencies": {
