@@ -138,6 +138,36 @@ define([], function() {'use strict';
                 default:
                     return s + "ed" + rest;
             };
+        },
+
+        possessive : function(s){
+            var s = s;
+            switch(s) {
+                case "he":
+                    return "his";
+                    break;
+                case "she":
+                    return "her";
+                    break;
+                case "it":
+                    return "its";
+                    break;
+                case "us":
+                    return "our";
+                    break;
+                case "them":
+                    return "their";
+                    break;
+                case "who":
+                    return "whose";
+                    break;
+                default:
+                    var last = s.charAt(s.length - 1);
+                    if (last === "s")
+                        return s + "'";
+                    else
+                        return s + "'s";
+            };
         }
     };
 
