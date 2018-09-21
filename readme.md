@@ -30,7 +30,7 @@ Yuuma traveled with her pet owl. Yuuma was never wistful, for the owl was always
 Azra traveled with her pet zebra. Azra was never impassioned, for the zebra was always too astute.
 ```
 
-### How to use Tracery as a broswer library
+### How to use Tracery as a browser library
 
 Import tracery
 `<script defer src="js/libs/tracery.js"></script>`
