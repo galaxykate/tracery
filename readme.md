@@ -30,7 +30,7 @@ Yuuma traveled with her pet owl. Yuuma was never wistful, for the owl was always
 Azra traveled with her pet zebra. Azra was never impassioned, for the zebra was always too astute.
 ```
 
-### How to use Tracery as a broswer library
+### How to use Tracery as a browser library
 
 Import tracery
 `<script defer src="js/libs/tracery.js"></script>`
@@ -43,13 +43,14 @@ The grammar can create `Trace` objects.  A `Trace` is one possible expansion of 
 
 The trace can be expanded into a tree structure, step by step, or all at once.
 `trace.expand();`
+
 Once expanded, the trace can create a 'flattened' version of itself: a single string of text.
-var myString = trace.flatten();
+`var myString = trace.flatten();`
 
-Or the grammar can generate a trace and flatten it, all in one step
-`var myTitle = app.grammar.createFlattened()`
+Or the grammar can generate a trace and flatten it, all in one step.
+`var myTitle = app.grammar.createFlattened();`
 
-Traces will start their expansions with the 'origin' symbol by default, but you can also create one from a rule (see "Rule Syntax" below), or from a symbol
+Traces will start their expansions with the 'origin' symbol by default, but you can also create one from a rule (see "Rule Syntax" below), or from a symbol.
 `var trace = app.grammar.createTrace("A story about #character#");`
 `var trace = app.grammar.createTraceFromSymbol("bookTitle");`
 
@@ -66,11 +67,12 @@ Use this Node library created by George Buckenham: https://github.com/v21/tracer
 A grammar is a key-value storage system for rules.
 
 ####  Rule syntax
-Each symbol should be followed by an array of text strings representing rules
+Each symbol should be followed by an array of text strings representing rules:
 ```
   "emotion" : ["happy", "sad", "proud"],
 ```
-or, if you're writing a long string of single words, you can use 'split'
+
+Or, if you're writing a long string of single words, you can use 'split':
 ```
   "emotion" : "happy sad reflective morose proud".split(" "),
 ```
