@@ -3,6 +3,7 @@
 ## A text-expansion library
 
 (Update: Nov 3 2024, everything is moved into Tracery.io because I let the old domains slip 🙃)
+
 Here is the (new location) of the classic [editor](https://tracery.io/archival/brightspiral/tracery/)
 
 And the newer [artbot.club version](https://artbot.club) that I keep working on 
