@@ -2,8 +2,14 @@
 
 ## A text-expansion library
 
-There are many new examples of Tracery [in use](http://www.crystalcodepalace.com/tracery.html "Examples")
-I also have an exciting new *interactive* [tutorial](http://www.crystalcodepalace.com/traceryTut.html "Tutorial")
+(Update: Nov 3 2024, everything is moved into Tracery.io because I let the old domains slip 🙃)
+Here is the (new location) of the classic [editor](https://tracery.io/archival/brightspiral/tracery/)
+
+And the newer [artbot.club version](https://artbot.club) that I keep working on 
+
+There are many new examples of Tracery [in use](https://tracery.io/archival/crystalcodepalace/tracery.html "Examples")
+
+I also have an exciting new *interactive* [tutorial](https://tracery.io/archival/crystalcodepalace/tracerytut.html "Tutorial")
 
 I strongly recommend using the [minified library](https://github.com/galaxykate/tracery/blob/master/js/tracery.min.js "Minified")
 
